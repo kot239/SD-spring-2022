@@ -12,4 +12,4 @@
 
 В Command вызываем нужную команду с полученными аргументами, возвращаем строку или пустое значение.
 
-![Схема архитектуры][CLIArchitecture]
+![Схема архитектуры](https://github.com/kot239/SD-spring-2022/blob/task-1/CLIArchitecture.png)
