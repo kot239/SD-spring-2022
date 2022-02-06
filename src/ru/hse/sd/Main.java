@@ -4,6 +4,7 @@ import java.util.List;
 
 import ru.hse.sd.commands.CatCommand;
 import ru.hse.sd.commands.EchoCommand;
+import ru.hse.sd.commands.PwdCommand;
 import ru.hse.sd.enums.ReturnCode;
 
 public class Main {
@@ -18,6 +19,12 @@ public class Main {
         code = cat.execute();
         stream = cat.getOutputStream();
         System.out.println(stream);
+
+        PwdCommand pwd = new PwdCommand();
+        code = pwd.execute();
+        stream = pwd.getOutputStream();
+        System.out.println(stream);
+
     }
 
 }
