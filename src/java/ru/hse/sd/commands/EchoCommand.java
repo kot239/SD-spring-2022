@@ -1,8 +1,8 @@
 package ru.hse.sd.commands;
 
-import ru.hse.sd.enums.ReturnCode;
-
 import java.util.List;
+
+import ru.hse.sd.enums.ReturnCode;
 
 public class EchoCommand extends Command {
     private final List<String> args;
