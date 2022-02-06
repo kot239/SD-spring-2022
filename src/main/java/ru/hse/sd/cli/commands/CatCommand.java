@@ -1,4 +1,4 @@
-package ru.hse.sd.commands;
+package ru.hse.sd.cli.commands;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import ru.hse.sd.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 
 public class CatCommand extends Command {

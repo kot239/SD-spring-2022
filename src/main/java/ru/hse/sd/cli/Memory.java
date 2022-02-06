@@ -1,4 +1,4 @@
-package ru.hse.sd;
+package ru.hse.sd.cli;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package ru.hse.sd.enums;
+package ru.hse.sd.cli.enums;
 
 public enum ReturnCode {
     SUCCESS,

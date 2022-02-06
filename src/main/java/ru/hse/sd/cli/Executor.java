@@ -1,9 +1,9 @@
-package ru.hse.sd;
+package ru.hse.sd.cli;
 
 import java.io.InputStream;
 import java.util.List;
 
-import ru.hse.sd.commands.Command;
+import ru.hse.sd.cli.commands.Command;
 
 public class Executor {
     private Parser parser;

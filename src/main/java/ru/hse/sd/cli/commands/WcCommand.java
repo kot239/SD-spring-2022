@@ -1,4 +1,4 @@
-package ru.hse.sd.commands;
+package ru.hse.sd.cli.commands;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ru.hse.sd.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 public class WcCommand extends Command {
     private final List<String> args;

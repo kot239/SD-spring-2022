@@ -1,14 +1,14 @@
-package ru.hse.sd;
+package ru.hse.sd.cli;
 
 import java.util.Collections;
 import java.util.List;
 
-import ru.hse.sd.commands.CatCommand;
-import ru.hse.sd.commands.EchoCommand;
-import ru.hse.sd.commands.OtherCommand;
-import ru.hse.sd.commands.PwdCommand;
-import ru.hse.sd.commands.WcCommand;
-import ru.hse.sd.enums.ReturnCode;
+import ru.hse.sd.cli.commands.CatCommand;
+import ru.hse.sd.cli.commands.EchoCommand;
+import ru.hse.sd.cli.commands.OtherCommand;
+import ru.hse.sd.cli.commands.PwdCommand;
+import ru.hse.sd.cli.commands.WcCommand;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 public class Main {
 

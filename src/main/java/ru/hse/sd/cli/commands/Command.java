@@ -1,6 +1,6 @@
-package ru.hse.sd.commands;
+package ru.hse.sd.cli.commands;
 
-import ru.hse.sd.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 public abstract class Command {
     protected String command;
