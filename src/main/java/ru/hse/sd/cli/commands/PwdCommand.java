@@ -13,7 +13,7 @@ public class PwdCommand extends Command {
 
     @Override
     public ReturnCode execute() {
-        outputStream = Paths.get("").toAbsolutePath().toString();
+        outputStream = Paths.get("").toAbsolutePath().toString() + "\n";
         return ReturnCode.SUCCESS;
     }
 }
