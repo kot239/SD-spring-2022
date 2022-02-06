@@ -15,13 +15,13 @@ public class Memory {
 
     public String get(String key) {
         return storage.get(key);
-    };
+    }
 
     public void put(String key, String value) {
         storage.put(key, value);
-    };
+    }
 
     public void putAll(Map<String, String> m) {
         storage.putAll(m);
-    };
+    }
 }

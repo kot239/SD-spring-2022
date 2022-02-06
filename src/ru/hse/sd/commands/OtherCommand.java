@@ -6,14 +6,14 @@ import ru.hse.sd.enums.ReturnCode;
 
 
 public class OtherCommand extends Command {
-  private final List<String> args;
+    private final List<String> args;
 
-  public OtherCommand(List<String> args) {
-    this.args = args;
-  }
+    public OtherCommand(List<String> args) {
+        this.args = args;
+    }
 
-  @Override
-  public ReturnCode execute() {
-    return ReturnCode.SUCCESS;
-  }
+    @Override
+    public ReturnCode execute() {
+        return ReturnCode.SUCCESS;
+    }
 }
