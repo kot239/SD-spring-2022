@@ -1,19 +1,27 @@
 package ru.hse.sd;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Memory {
-  private final Map<String, String> storage;
+    private final Map<String, String> storage;
 
-  public String get(String key) {
-    return "";
-  };
+    public Memory() {
+        storage = new HashMap<>();
+        Map<String, String> map = System.getenv();
+        storage.putAll(map);
+    }
 
-  public void put(String key, String value) {
-    return;
-  };
 
-  public void putAll(Map<String, String> m) {
-    return;
-  };
+    public String get(String key) {
+        return storage.get(key);
+    };
+
+    public void put(String key, String value) {
+        storage.put(key, value);
+    };
+
+    public void putAll(Map<String, String> m) {
+        storage.putAll(m);
+    };
 }

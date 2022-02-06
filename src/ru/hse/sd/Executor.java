@@ -1,8 +1,8 @@
 package ru.hse.sd;
 
-import ru.hse.sd.Parser;
-import ru.hse.sd.Memory;
+import ru.hse.sd.commands.Command;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class Executor {

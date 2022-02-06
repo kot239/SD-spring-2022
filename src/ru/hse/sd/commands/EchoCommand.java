@@ -1,14 +1,18 @@
 package ru.hse.sd.commands;
 
-import ru.hse.sd.commands.Command;
+import ru.hse.sd.enums.ReturnCode;
 
-import java.utils.List;
+import java.util.List;
 
 public class EchoCommand extends Command {
   private final List<String> args;
 
+  public EchoCommand(List<String> args) {
+    this.args = args;
+  }
+
   @Override
   public ReturnCode execute() {
-    return ReturnCode();
+    return ReturnCode.SUCCESS;
   };
 }

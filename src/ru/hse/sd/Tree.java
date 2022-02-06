@@ -9,12 +9,13 @@ public class Tree {
     COMMAND
   }
 
-  private class Node {
+  private static class Node {
     private final NodeType type;
     private final List<String> args;
 
-    public void do() {
-      return;
-    };
+    private Node(NodeType type, List<String> args) {
+      this.type = type;
+      this.args = args;
+    }
   }
 }
