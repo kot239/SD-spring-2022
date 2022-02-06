@@ -15,5 +15,5 @@ public class OtherCommand extends Command {
   @Override
   public ReturnCode execute() {
     return ReturnCode.SUCCESS;
-  };
+  }
 }

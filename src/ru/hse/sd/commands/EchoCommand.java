@@ -5,14 +5,16 @@ import ru.hse.sd.enums.ReturnCode;
 import java.util.List;
 
 public class EchoCommand extends Command {
-  private final List<String> args;
+    private final List<String> args;
 
-  public EchoCommand(List<String> args) {
-    this.args = args;
-  }
+    public EchoCommand(List<String> args) {
+        command = "echo";
+        this.args = args;
+    }
 
-  @Override
-  public ReturnCode execute() {
-    return ReturnCode.SUCCESS;
-  };
+    @Override
+    public ReturnCode execute() {
+        outputStream = String.join(", ", args);
+        return ReturnCode.SUCCESS;
+    }
 }
