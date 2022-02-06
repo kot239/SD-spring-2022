@@ -14,7 +14,11 @@ public class EchoCommand extends Command {
 
     @Override
     public ReturnCode execute() {
-        outputStream = String.join(", ", args);
+        if (args.isEmpty()) {
+            outputStream = inputStream;
+            return ReturnCode.SUCCESS;
+        }
+        outputStream = String.join(" ", args);
         return ReturnCode.SUCCESS;
     }
 }
