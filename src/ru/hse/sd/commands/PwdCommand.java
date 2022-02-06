@@ -8,7 +8,7 @@ import ru.hse.sd.enums.ReturnCode;
 public class PwdCommand extends Command {
 
     public PwdCommand() {
-        command = "pwd";
+        this.command = "pwd";
     }
 
     @Override

@@ -8,7 +8,7 @@ public class EchoCommand extends Command {
     private final List<String> args;
 
     public EchoCommand(List<String> args) {
-        command = "echo";
+        this.command = "echo";
         this.args = args;
     }
 

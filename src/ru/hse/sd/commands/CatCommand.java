@@ -13,7 +13,7 @@ public class CatCommand extends Command {
     private final List<String> args;
 
     public CatCommand(List<String> args) {
-        command = "cat";
+        this.command = "cat";
         this.args = args;
     }
 

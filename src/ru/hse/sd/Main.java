@@ -5,6 +5,7 @@ import java.util.List;
 import ru.hse.sd.commands.CatCommand;
 import ru.hse.sd.commands.EchoCommand;
 import ru.hse.sd.commands.PwdCommand;
+import ru.hse.sd.commands.WcCommand;
 import ru.hse.sd.enums.ReturnCode;
 
 public class Main {
@@ -23,6 +24,11 @@ public class Main {
         PwdCommand pwd = new PwdCommand();
         code = pwd.execute();
         stream = pwd.getOutputStream();
+        System.out.println(stream);
+
+        WcCommand wc = new WcCommand(List.of("README.md"));
+        code = wc.execute();
+        stream = wc.getOutputStream();
         System.out.println(stream);
 
     }
