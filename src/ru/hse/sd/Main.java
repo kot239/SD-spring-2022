@@ -1,9 +1,11 @@
 package ru.hse.sd;
 
+import java.util.Collections;
 import java.util.List;
 
 import ru.hse.sd.commands.CatCommand;
 import ru.hse.sd.commands.EchoCommand;
+import ru.hse.sd.commands.OtherCommand;
 import ru.hse.sd.commands.PwdCommand;
 import ru.hse.sd.commands.WcCommand;
 import ru.hse.sd.enums.ReturnCode;
@@ -29,6 +31,11 @@ public class Main {
         WcCommand wc = new WcCommand(List.of("README.md"));
         code = wc.execute();
         stream = wc.getOutputStream();
+        System.out.println(stream);
+
+        OtherCommand other = new OtherCommand("ls", Collections.emptyList());
+        code = other.execute();
+        stream = other.getOutputStream();
         System.out.println(stream);
 
     }
