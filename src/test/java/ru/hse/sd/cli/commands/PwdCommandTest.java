@@ -15,7 +15,6 @@ class PwdCommandTest {
         assertEquals(ReturnCode.SUCCESS, code);
 
         String stream = pwd.getOutputStream();
-        System.out.println(stream);
         assertEquals(System.getProperty("user.dir") + "\n", stream);
     }
 

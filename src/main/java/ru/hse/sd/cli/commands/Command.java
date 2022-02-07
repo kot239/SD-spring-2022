@@ -2,6 +2,9 @@ package main.java.ru.hse.sd.cli.commands;
 
 import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
+/*
+ * Abstract class for Bash's commands
+ */
 public abstract class Command {
     public static final String CAT = "cat";
     public static final String ECHO ="echo";
@@ -16,7 +19,17 @@ public abstract class Command {
 
     public abstract ReturnCode execute();
 
+    /*
+     * Get output of command
+     */
     public String getOutputStream() {
         return outputStream;
+    }
+
+    /*
+     * Set input of command
+     */
+    public void setInputStream(String inputStream) {
+        this.inputStream = inputStream;
     }
 }

@@ -10,14 +10,23 @@ import java.util.stream.Collectors;
 
 import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
+/*
+ * Implementation of Bash's wc command
+ */
 public class WcCommand extends Command {
     private final List<String> args;
 
+    /*
+     * Constructor which takes arguments for wc command
+     */
     public WcCommand(List<String> args) {
         this.command = "wc";
         this.args = args;
     }
 
+    /*
+     * Execute wc command with arguments from constructor
+     */
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {

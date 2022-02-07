@@ -8,15 +8,23 @@ import java.util.List;
 
 import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
-
+/*
+ * Class for unknown Bash's commands
+ */
 public class OtherCommand extends Command {
     private final List<String> args;
 
+    /*
+     * Constructor with command name and arguments
+     */
     public OtherCommand(String command, List<String> args) {
         this.command = command;
         this.args = args;
     }
 
+    /*
+     * Execute command in bash
+     */
     @Override
     public ReturnCode execute() {
         List<String> pbArgs = new ArrayList<>(List.of(command));

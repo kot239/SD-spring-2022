@@ -8,15 +8,23 @@ import java.util.List;
 
 import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
-
+/*
+ * Implementation of Bash's cat command
+ */
 public class CatCommand extends Command {
     private final List<String> args;
 
+    /*
+     * Constructor which takes arguments for cat command
+     */
     public CatCommand(List<String> args) {
         this.command = "cat";
         this.args = args;
     }
 
+    /*
+     * Execute cat command with arguments from constructor
+     */
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {
