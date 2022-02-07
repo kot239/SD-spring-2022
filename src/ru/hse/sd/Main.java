@@ -10,6 +10,7 @@ import ru.hse.sd.enums.ReturnCode;
 public class Main {
 
     public static void main(String[] args) {
+        /*
         EchoCommand echo = new EchoCommand(List.of("hello"));
         ReturnCode code = echo.execute();
         String stream = echo.getOutputStream();
@@ -24,7 +25,17 @@ public class Main {
         code = pwd.execute();
         stream = pwd.getOutputStream();
         System.out.println(stream);
+        */
 
+        String input = "echo '\"$HOME | kek\"' | cat nya.txt";
+        Parser parser = new Parser();
+        List<List<RawArg>> kek = parser.parse(input);
+        for (List<RawArg> command: kek) {
+            for (RawArg arg: command) {
+                System.out.println(arg.arg);
+            }
+            System.out.println("###");
+        }
     }
 
 }
