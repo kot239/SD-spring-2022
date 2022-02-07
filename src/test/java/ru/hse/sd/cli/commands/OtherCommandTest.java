@@ -1,17 +1,8 @@
-package ru.hse.sd.cli.commands;
+package main.java.ru.hse.sd.cli.commands;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
-import ru.hse.sd.cli.enums.ReturnCode;
+import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
