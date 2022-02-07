@@ -1,9 +1,15 @@
 package main.java.ru.hse.sd.cli;
 
-import main.java.ru.hse.sd.cli.Memory;
-import java.util.List;
 
+/**
+ * Class that have information about argument and makes
+ * substitution and assignment if it necessary
+ * @author German Tarabonda
+ */
 public class RawArg {
+    /**
+     * Field that finally should have finished command or argument of a command
+     */
     public String arg;
     private final boolean can_substitute;
 
@@ -39,6 +45,13 @@ public class RawArg {
         return "";
     }
 
+    /**
+     * Makes finished String from RawArg by substitution or assignment
+     *
+     * @param memory The storage of parameters
+     *
+     * @return Finished String that could be used as a command or parameter
+     */
     public String fryArg(Memory memory) {
         if (!can_substitute) {
             return this.arg;

@@ -4,6 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * Class that parse String to the RawArgs (this is arguments that are not
+ * prepared yet, that means there wasn't any substitution or equating)
+ * @author German Tarabonda
+ */
 public class Parser {
     private final char DOUBLE_QUOTES = '\"';
     private final char SINGLE_QUOTES = '\'';
@@ -134,6 +139,14 @@ public class Parser {
         return res;
     }
 
+    /**
+     * Method return the list of commands.
+     * Each command has a list of RawArgs.
+     *
+     * @param input String that was given to console
+     *
+     * @return list of commands
+     */
     public List<List<RawArg>> parse(String input) {
         try {
             check_correctness(input);
