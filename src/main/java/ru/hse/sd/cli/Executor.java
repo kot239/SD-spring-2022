@@ -32,6 +32,7 @@ public class Executor {
                 break;
             case Command.EXIT:
                 command = new ExitCommand();
+                System.exit(0);
                 break;
             case Command.PWD:
                 command = new PwdCommand();

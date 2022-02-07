@@ -42,7 +42,7 @@ public class OtherCommand extends Command {
                 }
                 result.setLength(result.length() - 1);
                 outputStream = result.toString();
-
+                System.out.print(outputStream);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -29,6 +29,7 @@ public class CatCommand extends Command {
     public ReturnCode execute() {
         if (args.isEmpty()) {
             outputStream = inputStream;
+            System.out.println(outputStream);
             return ReturnCode.SUCCESS;
         } else if (args.size() > 1) {
             errorStream = "Too many arguments for cat command\n";
@@ -41,6 +42,7 @@ public class CatCommand extends Command {
         }
         try {
             outputStream = Files.readString(Paths.get(filename));
+            System.out.print(outputStream);
         } catch (IOException e) {
             errorStream ="Couldn't read file " + filename + "\n";
             return ReturnCode.FAILURE;

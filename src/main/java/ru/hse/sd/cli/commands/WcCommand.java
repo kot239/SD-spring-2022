@@ -32,6 +32,7 @@ public class WcCommand extends Command {
         if (args.isEmpty()) {
             List<String> fileLines = Arrays.stream(inputStream.split("\\r?\\n")).collect(Collectors.toList());
             outputStream = countOneIteration(fileLines);
+            System.out.print(outputStream);
             return ReturnCode.SUCCESS;
         }
         StringBuilder result = new StringBuilder();
@@ -45,6 +46,7 @@ public class WcCommand extends Command {
             }
         }
         outputStream = result.toString();
+        System.out.print(outputStream);
         return ReturnCode.SUCCESS;
     }
 

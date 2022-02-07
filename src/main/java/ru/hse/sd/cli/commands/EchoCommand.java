@@ -25,9 +25,11 @@ public class EchoCommand extends Command {
     public ReturnCode execute() {
         if (args.isEmpty()) {
             outputStream = inputStream;
+            System.out.println(outputStream);
             return ReturnCode.SUCCESS;
         }
         outputStream = String.join(" ", args);
+        System.out.println(outputStream);
         return ReturnCode.SUCCESS;
     }
 }
