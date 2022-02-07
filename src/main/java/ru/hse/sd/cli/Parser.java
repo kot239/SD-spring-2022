@@ -1,4 +1,4 @@
-package ru.hse.sd.cli;
+package main.java.ru.hse.sd.cli;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -79,18 +79,18 @@ public class Parser {
             return tokenize(line);
         }
         if (single_borders == null) {
-            return tokenize_quotes(line, double_borders, true);
+            return tokenize_quotes(line, double_borders, false); // will be true
         }
         if (double_borders == null) {
             return tokenize_quotes(line, single_borders, false);
         }
         if (double_borders.left <= single_borders.left &&
                 single_borders.right <= double_borders.right) {
-            return tokenize_quotes(line, double_borders, true);
+            return tokenize_quotes(line, double_borders, false); // will be true
         }
         if (single_borders.left <= double_borders.left &&
                 double_borders.right <= single_borders.right) {
-            return tokenize_quotes(line, single_borders, true);
+            return tokenize_quotes(line, single_borders, false);
         }
         throw new Exception("Incorrect input");
     }

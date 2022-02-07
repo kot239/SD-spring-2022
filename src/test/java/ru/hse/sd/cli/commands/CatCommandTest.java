@@ -1,4 +1,4 @@
-package ru.hse.sd.cli.commands;
+package test.java.ru.hse.sd.cli.commands;
 
 import java.io.File;
 import java.net.URL;
@@ -6,9 +6,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
+import main.java.ru.hse.sd.cli.commands.CatCommand;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import ru.hse.sd.cli.enums.ReturnCode;
+import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

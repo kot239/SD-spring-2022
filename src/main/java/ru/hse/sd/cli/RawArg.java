@@ -1,5 +1,6 @@
-package ru.hse.sd;
+package main.java.ru.hse.sd.cli;
 
+import main.java.ru.hse.sd.cli.Memory;
 import java.util.List;
 
 public class RawArg {

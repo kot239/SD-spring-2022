@@ -1,8 +1,8 @@
-package ru.hse.sd.cli.commands;
+package main.java.ru.hse.sd.cli.commands;
 
 import java.nio.file.Paths;
 
-import ru.hse.sd.cli.enums.ReturnCode;
+import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
 
 public class PwdCommand extends Command {

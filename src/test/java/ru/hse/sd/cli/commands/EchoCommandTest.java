@@ -1,10 +1,11 @@
-package ru.hse.sd.cli.commands;
+package test.java.ru.hse.sd.cli.commands;
 
 import java.util.Collections;
 import java.util.List;
 
+import main.java.ru.hse.sd.cli.commands.EchoCommand;
 import org.junit.jupiter.api.Test;
-import ru.hse.sd.cli.enums.ReturnCode;
+import main.java.ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
