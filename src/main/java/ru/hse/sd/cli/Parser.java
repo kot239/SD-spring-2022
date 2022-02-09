@@ -1,4 +1,4 @@
-package main.java.ru.hse.sd.cli;
+package ru.hse.sd.cli;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 /**
  * Class that parse String to the RawArgs (this is arguments that are not
  * prepared yet, that means there wasn't any substitution or equating)
- * @author German Tarabonda
  */
 public class Parser {
     private final char DOUBLE_QUOTES = '\"';

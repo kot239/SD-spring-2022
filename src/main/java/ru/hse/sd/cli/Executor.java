@@ -1,14 +1,13 @@
-package main.java.ru.hse.sd.cli;
+package ru.hse.sd.cli;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import main.java.ru.hse.sd.cli.commands.*;
-import main.java.ru.hse.sd.cli.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
+import ru.hse.sd.cli.commands.*;
 
 /**
  * Class that do the main flow
- * @author German Tarabonda
  */
 public class Executor {
     /**

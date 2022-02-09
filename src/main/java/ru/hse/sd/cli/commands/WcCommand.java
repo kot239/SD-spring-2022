@@ -1,4 +1,4 @@
-package main.java.ru.hse.sd.cli.commands;
+package ru.hse.sd.cli.commands;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import main.java.ru.hse.sd.cli.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
  * Implementation of Bash's wc command

@@ -1,4 +1,4 @@
-package main.java.ru.hse.sd.cli.commands;
+package ru.hse.sd.cli.commands;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import main.java.ru.hse.sd.cli.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
  * Implementation of Bash's cat command

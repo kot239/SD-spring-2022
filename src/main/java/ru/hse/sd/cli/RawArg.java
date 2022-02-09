@@ -1,10 +1,9 @@
-package main.java.ru.hse.sd.cli;
+package ru.hse.sd.cli;
 
 
 /**
  * Class that have information about argument and makes
- * substitution and assignment if it necessary
- * @author German Tarabonda
+ * substitution and assignment if it's necessary
  */
 public class RawArg {
     /**

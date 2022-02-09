@@ -1,9 +1,5 @@
-package test.java.ru.hse.sd.cli;
+package ru.hse.sd.cli;
 
-import main.java.ru.hse.sd.cli.Parser;
-import main.java.ru.hse.sd.cli.RawArg;
-import main.java.ru.hse.sd.cli.commands.WcCommand;
-import main.java.ru.hse.sd.cli.enums.ReturnCode;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;

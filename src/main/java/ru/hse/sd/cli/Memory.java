@@ -1,11 +1,10 @@
-package main.java.ru.hse.sd.cli;
+package ru.hse.sd.cli;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Class that save information about params
- * @author German Tarabonda
  */
 public class Memory {
     private final Map<String, String> storage;

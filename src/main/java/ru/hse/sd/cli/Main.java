@@ -1,4 +1,4 @@
-package main.java.ru.hse.sd.cli;
+package ru.hse.sd.cli;
 
 public class Main {
 

@@ -1,8 +1,8 @@
-package main.java.ru.hse.sd.cli.commands;
+package ru.hse.sd.cli.commands;
 
 import java.util.List;
 
-import main.java.ru.hse.sd.cli.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
  * Implementation of Bash's echo command

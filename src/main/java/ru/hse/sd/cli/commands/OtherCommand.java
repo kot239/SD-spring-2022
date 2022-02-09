@@ -1,4 +1,4 @@
-package main.java.ru.hse.sd.cli.commands;
+package ru.hse.sd.cli.commands;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.ru.hse.sd.cli.enums.ReturnCode;
+import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
  * Class for unknown Bash's commands
