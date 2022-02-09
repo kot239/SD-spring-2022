@@ -13,7 +13,7 @@ public class Parser {
     private final char SINGLE_QUOTES = '\'';
 
 
-    private int cnt_of_symbols(String line, char symbol) {
+    private int cntOfSymbols(String line, char symbol) {
         int cnt_of_symbol = 0;
         for (int i = 0; i < line.length(); i++) {
             if (line.charAt(i) == symbol) {
@@ -23,9 +23,9 @@ public class Parser {
         return cnt_of_symbol;
     }
 
-    private void check_correctness(String line) throws Exception {
-        int single_quotes = cnt_of_symbols(line, SINGLE_QUOTES);
-        int double_quotes = cnt_of_symbols(line, DOUBLE_QUOTES);
+    private void checkCorrectness(String line) throws Exception {
+        int single_quotes = cntOfSymbols(line, SINGLE_QUOTES);
+        int double_quotes = cntOfSymbols(line, DOUBLE_QUOTES);
         if (single_quotes % 2 != 0 && double_quotes % 2 != 0) {
             throw new Exception("Incorrect command");
         }
@@ -37,7 +37,7 @@ public class Parser {
         int right;
     }
 
-    private Borders find_borders(String line, char symbol) {
+    private Borders findBorders(String line, char symbol) {
         Borders borders = new Borders();
         borders.symbol = symbol;
         borders.left = 0;
@@ -60,7 +60,7 @@ public class Parser {
         return tokens;
     }
 
-    private List<RawArg> tokenize_quotes(String line, Borders borders, boolean can_substitute) {
+    private List<RawArg> tokenizeQuotes(String line, Borders borders, boolean can_substitute) {
         List<RawArg> res = new LinkedList<>();
         List<RawArg> left = tokenize(line.substring(0, borders.left));
         res.addAll(left);
@@ -70,44 +70,44 @@ public class Parser {
         return res;
     }
 
-    private List<RawArg> tokenize_with_quotes(String line) throws Exception {
+    private List<RawArg> tokenizeWithQuotes(String line) throws Exception {
         Borders single_borders = null;
         Borders double_borders = null;
-        if (cnt_of_symbols(line, SINGLE_QUOTES) > 0) {
-            single_borders = find_borders(line, SINGLE_QUOTES);
+        if (cntOfSymbols(line, SINGLE_QUOTES) > 0) {
+            single_borders = findBorders(line, SINGLE_QUOTES);
         }
-        if (cnt_of_symbols(line, DOUBLE_QUOTES) > 0) {
-            double_borders = find_borders(line, DOUBLE_QUOTES);
+        if (cntOfSymbols(line, DOUBLE_QUOTES) > 0) {
+            double_borders = findBorders(line, DOUBLE_QUOTES);
         }
         if (single_borders == null && double_borders == null) {
             return tokenize(line);
         }
         if (single_borders == null) {
-            return tokenize_quotes(line, double_borders, false); // will be true
+            return tokenizeQuotes(line, double_borders, false); // will be true
         }
         if (double_borders == null) {
-            return tokenize_quotes(line, single_borders, false);
+            return tokenizeQuotes(line, single_borders, false);
         }
         if (double_borders.left <= single_borders.left &&
                 single_borders.right <= double_borders.right) {
-            return tokenize_quotes(line, double_borders, false); // will be true
+            return tokenizeQuotes(line, double_borders, false); // will be true
         }
         if (single_borders.left <= double_borders.left &&
                 double_borders.right <= single_borders.right) {
-            return tokenize_quotes(line, single_borders, false);
+            return tokenizeQuotes(line, single_borders, false);
         }
         throw new Exception("Incorrect input");
     }
 
 
-    private List<List<RawArg>> work_with_pipes(String input) throws Exception {
+    private List<List<RawArg>> workWithPipes(String input) throws Exception {
         Borders single_borders = null;
         Borders double_borders = null;
-        if (cnt_of_symbols(input, SINGLE_QUOTES) > 0) {
-            single_borders = find_borders(input, SINGLE_QUOTES);
+        if (cntOfSymbols(input, SINGLE_QUOTES) > 0) {
+            single_borders = findBorders(input, SINGLE_QUOTES);
         }
-        if (cnt_of_symbols(input, DOUBLE_QUOTES) > 0) {
-            double_borders = find_borders(input, DOUBLE_QUOTES);
+        if (cntOfSymbols(input, DOUBLE_QUOTES) > 0) {
+            double_borders = findBorders(input, DOUBLE_QUOTES);
         }
         List<Integer> pipes = new LinkedList<>();
         for (int i = 0; i < input.length(); i++) {
@@ -131,10 +131,10 @@ public class Parser {
         List<List<RawArg>> res = new LinkedList<>();
         int cur_start = 0;
         for (Integer pipe_pos: pipes) {
-            res.add(tokenize_with_quotes(input.substring(cur_start, pipe_pos)));
+            res.add(tokenizeWithQuotes(input.substring(cur_start, pipe_pos)));
             cur_start = pipe_pos + 1;
         }
-        res.add(tokenize_with_quotes(input.substring(cur_start)));
+        res.add(tokenizeWithQuotes(input.substring(cur_start)));
         return res;
     }
 
@@ -148,8 +148,8 @@ public class Parser {
      */
     public List<List<RawArg>> parse(String input) {
         try {
-            check_correctness(input);
-            return work_with_pipes(input);
+            checkCorrectness(input);
+            return workWithPipes(input);
         } catch (Exception ex) {
             return new LinkedList<>();
         }

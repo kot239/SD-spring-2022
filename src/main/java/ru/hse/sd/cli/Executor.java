@@ -16,7 +16,7 @@ public class Executor {
      */
     private final Memory memory = new Memory();
 
-    private ReturnCode do_command(List<String> args_with_com) {
+    private ReturnCode doCommand(List<String> args_with_com) {
         if (args_with_com.isEmpty()) {
             return ReturnCode.SUCCESS;
         }
@@ -63,7 +63,7 @@ public class Executor {
                     args.add(word);
                 }
             }
-            do_command(args);
+            doCommand(args);
         }
     }
 }
