@@ -1,5 +1,7 @@
 package ru.hse.sd.cli;
 
+import ru.hse.sd.cli.exceptions.ParserException;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -23,11 +25,11 @@ public class Parser {
         return cnt_of_symbol;
     }
 
-    private void checkCorrectness(String line) throws Exception {
+    private void checkCorrectness(String line) throws ParserException {
         int single_quotes = cntOfSymbols(line, SINGLE_QUOTES);
         int double_quotes = cntOfSymbols(line, DOUBLE_QUOTES);
         if (single_quotes % 2 != 0 && double_quotes % 2 != 0) {
-            throw new Exception("Incorrect command");
+            throw new ParserException("Incorrect command");
         }
     }
 
@@ -70,7 +72,7 @@ public class Parser {
         return res;
     }
 
-    private List<RawArg> tokenizeWithQuotes(String line) throws Exception {
+    private List<RawArg> tokenizeWithQuotes(String line) throws ParserException {
         Borders single_borders = null;
         Borders double_borders = null;
         if (cntOfSymbols(line, SINGLE_QUOTES) > 0) {
@@ -96,11 +98,11 @@ public class Parser {
                 double_borders.right <= single_borders.right) {
             return tokenizeQuotes(line, single_borders, false);
         }
-        throw new Exception("Incorrect input");
+        throw new ParserException("Incorrect input");
     }
 
 
-    private List<List<RawArg>> workWithPipes(String input) throws Exception {
+    private List<List<RawArg>> workWithPipes(String input) throws ParserException {
         Borders single_borders = null;
         Borders double_borders = null;
         if (cntOfSymbols(input, SINGLE_QUOTES) > 0) {
@@ -150,7 +152,7 @@ public class Parser {
         try {
             checkCorrectness(input);
             return workWithPipes(input);
-        } catch (Exception ex) {
+        } catch (ParserException ex) {
             return new LinkedList<>();
         }
     }

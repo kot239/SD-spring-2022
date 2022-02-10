@@ -53,12 +53,12 @@ public class Executor {
      * @param input String from the console
      */
     public void execute(String input) {
-        Parser parser = new Parser();
+        var parser = new Parser();
         List<List<RawArg>> raw_commands = parser.parse(input);
         for (List<RawArg> command: raw_commands) {
             List<String> args = new LinkedList<>();
             for (RawArg arg: command) {
-                String word = arg.fryArg(this.memory);
+                String word = arg.prepareArg(this.memory);
                 if (!word.isEmpty()) {
                     args.add(word);
                 }

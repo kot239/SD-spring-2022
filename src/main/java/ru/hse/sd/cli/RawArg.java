@@ -51,7 +51,7 @@ public class RawArg {
      *
      * @return Finished String that could be used as a command or parameter
      */
-    public String fryArg(Memory memory) {
+    public String prepareArg(Memory memory) {
         if (!can_substitute) {
             return this.arg;
         }
