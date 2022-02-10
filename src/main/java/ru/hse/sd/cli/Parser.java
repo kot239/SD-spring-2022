@@ -85,14 +85,14 @@ public class Parser {
             return tokenize(line);
         }
         if (single_borders == null) {
-            return tokenizeQuotes(line, double_borders, false); // will be true
+            return tokenizeQuotes(line, double_borders, true); // will be true
         }
         if (double_borders == null) {
             return tokenizeQuotes(line, single_borders, false);
         }
         if (double_borders.left <= single_borders.left &&
                 single_borders.right <= double_borders.right) {
-            return tokenizeQuotes(line, double_borders, false); // will be true
+            return tokenizeQuotes(line, double_borders, true); // will be true
         }
         if (single_borders.left <= double_borders.left &&
                 double_borders.right <= single_borders.right) {
