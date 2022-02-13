@@ -1,6 +1,8 @@
 package ru.hse.sd.cli.commands;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,9 +21,11 @@ public class WcCommand extends Command {
     /*
      * Constructor which takes arguments for wc command
      */
-    public WcCommand(List<String> args) {
+    public WcCommand(List<String> args, InputStream inputStream, OutputStream outputStream) {
         this.command = "wc";
         this.args = args;
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
     }
 
     /*
@@ -30,9 +34,20 @@ public class WcCommand extends Command {
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {
-            List<String> fileLines = Arrays.stream(inputStream.split("\\r?\\n")).collect(Collectors.toList());
-            outputStream = countOneIteration(fileLines);
-            System.out.print(outputStream);
+            String text;
+            try {
+                text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            } catch(IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
+            List<String> fileLines = Arrays.stream(text.split("\\r?\\n")).collect(Collectors.toList());
+            try {
+                outputStream.write(countOneIteration(fileLines).getBytes(StandardCharsets.UTF_8));
+            } catch(IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
             return ReturnCode.SUCCESS;
         }
         StringBuilder result = new StringBuilder();
@@ -45,8 +60,12 @@ public class WcCommand extends Command {
                 return ReturnCode.FAILURE;
             }
         }
-        outputStream = result.toString();
-        System.out.print(outputStream);
+        try {
+            outputStream.write(result.toString().getBytes(StandardCharsets.UTF_8));
+        } catch(IOException e) {
+            errorStream = e.getMessage();
+            return ReturnCode.FAILURE;
+        }
         return ReturnCode.SUCCESS;
     }
 

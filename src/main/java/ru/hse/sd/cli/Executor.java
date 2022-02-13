@@ -24,23 +24,23 @@ public class Executor {
         List<String> args = args_with_com.subList(1, args_with_com.size());
         switch (args_with_com.get(0)) {
             case Command.CAT:
-                command = new CatCommand(args);
+                command = new CatCommand(args, System.in, System.out);
                 break;
             case Command.ECHO:
-                command = new EchoCommand(args);
+                command = new EchoCommand(args, System.in, System.out);
                 break;
             case Command.EXIT:
                 command = new ExitCommand();
                 System.exit(0);
                 break;
             case Command.PWD:
-                command = new PwdCommand();
+                command = new PwdCommand(System.in, System.out);
                 break;
             case Command.WC:
-                command = new WcCommand(args);
+                command = new WcCommand(args, System.in, System.out);
                 break;
             default:
-                command = new OtherCommand(args_with_com.get(0), args);
+                command = new OtherCommand(args_with_com.get(0), args, System.in, System.out);
                 break;
         }
         return command.execute();

@@ -2,7 +2,10 @@ package ru.hse.sd.cli.commands;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +20,11 @@ public class OtherCommand extends Command {
     /*
      * Constructor with command name and arguments
      */
-    public OtherCommand(String command, List<String> args) {
+    public OtherCommand(String command, List<String> args, InputStream inputStream, OutputStream outputStream) {
         this.command = command;
         this.args = args;
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
     }
 
     /*
@@ -43,8 +48,12 @@ public class OtherCommand extends Command {
                 if (result.length() != 0) {
                     result.setLength(result.length() - 1);
                 }
-                outputStream = result.toString();
-                System.out.print(outputStream);
+                try {
+                    outputStream.write(result.toString().getBytes(StandardCharsets.UTF_8));
+                } catch(IOException e) {
+                    errorStream = e.getMessage();
+                    return ReturnCode.FAILURE;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

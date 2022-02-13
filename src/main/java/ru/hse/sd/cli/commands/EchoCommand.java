@@ -1,5 +1,9 @@
 package ru.hse.sd.cli.commands;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import ru.hse.sd.cli.enums.ReturnCode;
@@ -13,9 +17,11 @@ public class EchoCommand extends Command {
     /*
      * Constructor which takes arguments for echo command
      */
-    public EchoCommand(List<String> args) {
+    public EchoCommand(List<String> args, InputStream inputStream, OutputStream outputStream) {
         this.command = "echo";
         this.args = args;
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
     }
 
     /*
@@ -24,12 +30,20 @@ public class EchoCommand extends Command {
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {
-            outputStream = inputStream;
-            System.out.println(outputStream);
+            try {
+                inputStream.transferTo(outputStream);
+            } catch(IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
             return ReturnCode.SUCCESS;
         }
-        outputStream = String.join(" ", args);
-        System.out.println(outputStream);
+        try {
+            outputStream.write(String.join(" ", args).getBytes(StandardCharsets.UTF_8));
+        } catch(IOException e) {
+            errorStream = e.getMessage();
+            return ReturnCode.FAILURE;
+        }
         return ReturnCode.SUCCESS;
     }
 }

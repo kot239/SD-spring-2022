@@ -1,5 +1,7 @@
 package ru.hse.sd.cli.commands;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +14,7 @@ import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CatCommandTest {
     @Test
@@ -25,7 +27,8 @@ class CatCommandTest {
         CatCommand cat = new CatCommand(List.of(
                 resource1.toURI().getPath(),
                 resource2.toURI().getPath()
-        ));
+        ),
+                new ByteArrayInputStream("".getBytes()), new ByteArrayOutputStream());
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.FAILURE);
@@ -33,13 +36,15 @@ class CatCommandTest {
 
     @Test
     void testNoArgs() {
-        CatCommand cat = new CatCommand(Collections.emptyList());
+        CatCommand cat = new CatCommand(Collections.emptyList(),
+                new ByteArrayInputStream("".getBytes()), new ByteArrayOutputStream());
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        String stream = cat.getOutputStream();
-        assertNull(stream);
+        ByteArrayOutputStream stream = (ByteArrayOutputStream) cat.getOutputStream();
+        String output = stream.toString(StandardCharsets.UTF_8);
+        assertTrue(output.isEmpty());
     }
 
     @Test
@@ -47,13 +52,17 @@ class CatCommandTest {
         URL resource = getClass().getClassLoader().getResource("file.txt");
         assertNotNull(resource);
 
-        CatCommand cat = new CatCommand(List.of(resource.toURI().getPath()));
+        CatCommand cat = new CatCommand(
+                List.of(resource.toURI().getPath()),
+                new ByteArrayInputStream("".getBytes()),
+                new ByteArrayOutputStream());
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
         File expectedFile = new File(resource.toURI());
-        String stream = cat.getOutputStream();
+
+        String stream = cat.getOutputStream().toString();
         assertEquals(stream, String.join("\n", FileUtils.readLines(expectedFile, StandardCharsets.UTF_8)));
     }
 }

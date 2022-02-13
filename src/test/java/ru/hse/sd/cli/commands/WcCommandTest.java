@@ -1,6 +1,9 @@
 package ru.hse.sd.cli.commands;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +17,9 @@ class WcCommandTest {
 
     @Test
     void testNoSuchFile() {
-        WcCommand wc = new WcCommand(List.of("not_exist.txt"));
+        WcCommand wc = new WcCommand(List.of("not_exist.txt"),
+                new ByteArrayInputStream("".getBytes()),
+                new ByteArrayOutputStream());
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.FAILURE, code);
@@ -25,13 +30,16 @@ class WcCommandTest {
     void testOneFile() throws Exception {
         URL resource = getClass().getClassLoader().getResource("file.txt");
         assertNotNull(resource);
-        WcCommand wc = new WcCommand(List.of(resource.toURI().getPath()));
+        WcCommand wc = new WcCommand(List.of(resource.toURI().getPath()),
+                new ByteArrayInputStream("".getBytes()),
+                new ByteArrayOutputStream());
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 
-        String stream = wc.getOutputStream();
-        assertEquals("2 8 38\n", stream);
+        ByteArrayOutputStream stream = (ByteArrayOutputStream) wc.getOutputStream();
+        String output = stream.toString(StandardCharsets.UTF_8);
+        assertEquals("2 8 38\n", output);
     }
 
     @Test
@@ -41,16 +49,21 @@ class WcCommandTest {
         assertNotNull(resource1);
         assertNotNull(resource2);
 
-        WcCommand wc = new WcCommand(List.of(
-                resource1.toURI().getPath(),
-                resource2.toURI().getPath()
-        ));
+        WcCommand wc = new WcCommand(
+                List.of(
+                        resource1.toURI().getPath(),
+                        resource2.toURI().getPath()
+                ),
+                new ByteArrayInputStream("".getBytes()),
+                new ByteArrayOutputStream()
+        );
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 
-        String stream = wc.getOutputStream();
-        assertEquals("2 8 38\n3 10 49\n", stream);
+        ByteArrayOutputStream stream = (ByteArrayOutputStream) wc.getOutputStream();
+        String output = stream.toString(StandardCharsets.UTF_8);
+        assertEquals("2 8 38\n3 10 49\n", output);
     }
 
 }

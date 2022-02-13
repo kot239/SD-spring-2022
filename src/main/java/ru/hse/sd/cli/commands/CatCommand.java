@@ -2,6 +2,9 @@ package ru.hse.sd.cli.commands;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -17,9 +20,11 @@ public class CatCommand extends Command {
     /*
      * Constructor which takes arguments for cat command
      */
-    public CatCommand(List<String> args) {
+    public CatCommand(List<String> args, InputStream inputStream, OutputStream outputStream) {
         this.command = "cat";
         this.args = args;
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
     }
 
     /*
@@ -28,8 +33,12 @@ public class CatCommand extends Command {
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {
-            outputStream = inputStream;
-            System.out.println(outputStream);
+            try {
+                inputStream.transferTo(outputStream);
+            } catch(IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
             return ReturnCode.SUCCESS;
         } else if (args.size() > 1) {
             errorStream = "Too many arguments for cat command\n";
@@ -41,10 +50,15 @@ public class CatCommand extends Command {
             errorStream = filename + ": No such file or directory\n";
         }
         try {
-            outputStream = Files.readString(Paths.get(filename));
-            System.out.print(outputStream);
+            String readString = Files.readString(Paths.get(filename));
+            try {
+                outputStream.write(readString.getBytes(StandardCharsets.UTF_8));
+            } catch(IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
         } catch (IOException e) {
-            errorStream ="Couldn't read file " + filename + "\n";
+            errorStream = "Couldn't read file " + filename + "\n";
             return ReturnCode.FAILURE;
         }
 

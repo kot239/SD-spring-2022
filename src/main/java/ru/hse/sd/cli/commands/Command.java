@@ -1,5 +1,8 @@
 package ru.hse.sd.cli.commands;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
@@ -13,8 +16,8 @@ public abstract class Command {
     public static final String WC = "wc";
 
     protected String command;
-    protected String inputStream;
-    protected String outputStream = "";
+    protected InputStream inputStream;
+    protected OutputStream outputStream;
     protected String errorStream;
 
     public abstract ReturnCode execute();
@@ -22,14 +25,14 @@ public abstract class Command {
     /*
      * Get output of command
      */
-    public String getOutputStream() {
+    public OutputStream getOutputStream() {
         return outputStream;
     }
 
     /*
      * Set input of command
      */
-    public void setInputStream(String inputStream) {
+    public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
 }
