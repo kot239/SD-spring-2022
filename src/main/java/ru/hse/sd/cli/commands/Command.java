@@ -1,5 +1,7 @@
 package ru.hse.sd.cli.commands;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -16,23 +18,33 @@ public abstract class Command {
     public static final String WC = "wc";
 
     protected String command;
-    protected InputStream inputStream;
-    protected OutputStream outputStream;
+    protected ByteArrayInputStream inputStream;
+    protected ByteArrayOutputStream outputStream;
     protected String errorStream;
 
     public abstract ReturnCode execute();
 
     /*
+     * Get name of command
+     */
+    public String getCommandName() {return command;}
+
+    /*
+     * Get error of commands
+     */
+    public String getErrorStream() {return errorStream;}
+
+    /*
      * Get output of command
      */
-    public OutputStream getOutputStream() {
+    public ByteArrayOutputStream getOutputStream() {
         return outputStream;
     }
 
     /*
      * Set input of command
      */
-    public void setInputStream(InputStream inputStream) {
+    public void setInputStream(ByteArrayInputStream inputStream) {
         this.inputStream = inputStream;
     }
 }

@@ -28,7 +28,7 @@ class CatCommandTest {
                 resource1.toURI().getPath(),
                 resource2.toURI().getPath()
         ),
-                new ByteArrayInputStream("".getBytes()), new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.FAILURE);
@@ -37,7 +37,7 @@ class CatCommandTest {
     @Test
     void testNoArgs() {
         CatCommand cat = new CatCommand(Collections.emptyList(),
-                new ByteArrayInputStream("".getBytes()), new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
@@ -54,8 +54,7 @@ class CatCommandTest {
 
         CatCommand cat = new CatCommand(
                 List.of(resource.toURI().getPath()),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);

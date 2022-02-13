@@ -18,8 +18,7 @@ class WcCommandTest {
     @Test
     void testNoSuchFile() {
         WcCommand wc = new WcCommand(List.of("not_exist.txt"),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.FAILURE, code);
@@ -31,8 +30,7 @@ class WcCommandTest {
         URL resource = getClass().getClassLoader().getResource("file.txt");
         assertNotNull(resource);
         WcCommand wc = new WcCommand(List.of(resource.toURI().getPath()),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -54,9 +52,7 @@ class WcCommandTest {
                         resource1.toURI().getPath(),
                         resource2.toURI().getPath()
                 ),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream()
-        );
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.SUCCESS, code);

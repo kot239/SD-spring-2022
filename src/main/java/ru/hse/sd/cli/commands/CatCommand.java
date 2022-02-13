@@ -1,9 +1,6 @@
 package ru.hse.sd.cli.commands;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,11 +17,12 @@ public class CatCommand extends Command {
     /*
      * Constructor which takes arguments for cat command
      */
-    public CatCommand(List<String> args, InputStream inputStream, OutputStream outputStream) {
+    public CatCommand(List<String> args,
+                      ByteArrayInputStream inputStream) {
         this.command = "cat";
         this.args = args;
         this.inputStream = inputStream;
-        this.outputStream = outputStream;
+        this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
     }
 
     /*

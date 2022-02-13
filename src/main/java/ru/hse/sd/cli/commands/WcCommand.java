@@ -1,8 +1,6 @@
 package ru.hse.sd.cli.commands;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,11 +19,11 @@ public class WcCommand extends Command {
     /*
      * Constructor which takes arguments for wc command
      */
-    public WcCommand(List<String> args, InputStream inputStream, OutputStream outputStream) {
+    public WcCommand(List<String> args, ByteArrayInputStream inputStream) {
         this.command = "wc";
         this.args = args;
         this.inputStream = inputStream;
-        this.outputStream = outputStream;
+        this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
     }
 
     /*
@@ -35,12 +33,7 @@ public class WcCommand extends Command {
     public ReturnCode execute() {
         if (args.isEmpty()) {
             String text;
-            try {
-                text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            } catch(IOException e) {
-                errorStream = e.getMessage();
-                return ReturnCode.FAILURE;
-            }
+            text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             List<String> fileLines = Arrays.stream(text.split("\\r?\\n")).collect(Collectors.toList());
             try {
                 outputStream.write(countOneIteration(fileLines).getBytes(StandardCharsets.UTF_8));

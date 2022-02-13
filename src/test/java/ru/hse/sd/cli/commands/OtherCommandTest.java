@@ -15,8 +15,7 @@ class OtherCommandTest {
     @Test
     void testPwd() {
         OtherCommand other = new OtherCommand("pwd", emptyList(),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
         ReturnCode code = other.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 

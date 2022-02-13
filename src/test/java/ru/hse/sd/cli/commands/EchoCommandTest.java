@@ -18,8 +18,7 @@ class EchoCommandTest {
     @Test
     void testNoArgs() {
         EchoCommand echo = new EchoCommand(Collections.emptyList(),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
@@ -32,8 +31,7 @@ class EchoCommandTest {
     @Test
     void testSimpleEcho() {
         EchoCommand echo = new EchoCommand(List.of("friend"),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
@@ -46,8 +44,7 @@ class EchoCommandTest {
     @Test
     void testFewArgumentsEcho() {
         EchoCommand echo = new EchoCommand(List.of("hello", "my", "friend"),
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream());
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);

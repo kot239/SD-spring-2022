@@ -14,9 +14,7 @@ class PwdCommandTest {
     @Test
     void testPwd() {
         PwdCommand pwd = new PwdCommand(
-                new ByteArrayInputStream("".getBytes()),
-                new ByteArrayOutputStream()
-        );
+                new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = pwd.execute();
         assertEquals(ReturnCode.SUCCESS, code);

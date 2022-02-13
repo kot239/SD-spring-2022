@@ -1,8 +1,6 @@
 package ru.hse.sd.cli.commands;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -17,11 +15,12 @@ public class EchoCommand extends Command {
     /*
      * Constructor which takes arguments for echo command
      */
-    public EchoCommand(List<String> args, InputStream inputStream, OutputStream outputStream) {
+    public EchoCommand(List<String> args,
+                       ByteArrayInputStream inputStream) {
         this.command = "echo";
         this.args = args;
         this.inputStream = inputStream;
-        this.outputStream = outputStream;
+        this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
     }
 
     /*
