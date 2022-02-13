@@ -131,6 +131,10 @@ public class Parser {
             }
         }
         List<List<RawArg>> res = new LinkedList<>();
+        if (pipes.isEmpty()) {
+            res.add(tokenizeWithQuotes(input));
+            return res;
+        }
         int cur_start = 0;
         for (Integer pipe_pos: pipes) {
             res.add(tokenizeWithQuotes(input.substring(cur_start, pipe_pos)));

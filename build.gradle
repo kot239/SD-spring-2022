@@ -23,7 +23,7 @@ test {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'main.java.ru.hse.sd.cli.Main'
+                'Main-Class': 'ru.hse.sd.cli.Main'
         )
     }
 }
