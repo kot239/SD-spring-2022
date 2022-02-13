@@ -40,7 +40,9 @@ public class OtherCommand extends Command {
                 while ((line = reader.readLine()) != null) {
                     result.append(line).append("\n");
                 }
-                result.setLength(result.length() - 1);
+                if (result.length() != 0) {
+                    result.setLength(result.length() - 1);
+                }
                 outputStream = result.toString();
                 System.out.print(outputStream);
             }
