@@ -26,7 +26,7 @@ public class PwdCommand extends Command {
      */
     @Override
     public ReturnCode execute() {
-        String curDirectory = Paths.get("").toAbsolutePath() + "\n";
+        String curDirectory = Paths.get("").toAbsolutePath() + System.getProperty("line.separator");
         try {
             outputStream.write(curDirectory.getBytes(StandardCharsets.UTF_8));
         } catch(IOException e) {

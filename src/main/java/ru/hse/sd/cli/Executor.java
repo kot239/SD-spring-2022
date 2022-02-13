@@ -49,7 +49,7 @@ public class Executor {
                 command = new WcCommand(args,inputStream);
                 break;
             default:
-                command = new OtherCommand(argsWithCom.get(0), args, inputStream);
+                command = new OtherCommand(argsWithCom.get(0), args, inputStream, memory.getAll());
                 break;
         }
 

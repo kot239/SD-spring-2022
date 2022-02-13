@@ -77,6 +77,6 @@ public class WcCommand extends Command {
         }
         lines--;
         bytes += lines;
-        return lines + " " + words + " " + bytes + "\n";
+        return lines + " " + words + " " + bytes + System.getProperty("line.separator");
     }
 }
