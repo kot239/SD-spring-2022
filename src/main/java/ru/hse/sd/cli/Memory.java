@@ -27,6 +27,15 @@ public class Memory {
     }
 
     /**
+     * Method returns all stored key-values
+     *
+     * @return storage
+     */
+    public Map<String, String> getAll() {
+        return storage;
+    }
+
+    /**
      * Put the value of parameter by the name
      *
      * @param key name of the parameter

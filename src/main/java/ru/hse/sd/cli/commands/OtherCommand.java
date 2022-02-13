@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ru.hse.sd.cli.enums.ReturnCode;
 
@@ -16,15 +17,18 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class OtherCommand extends Command {
     private final List<String> args;
+    private final Map<String, String> env;
 
     /*
      * Constructor with command name and arguments
      */
-    public OtherCommand(String command, List<String> args, InputStream inputStream, OutputStream outputStream) {
+    public OtherCommand(String command, List<String> args, InputStream inputStream, OutputStream outputStream,
+                        Map<String, String> env) {
         this.command = command;
         this.args = args;
         this.inputStream = inputStream;
         this.outputStream = outputStream;
+        this.env = env;
     }
 
     /*
@@ -35,6 +39,7 @@ public class OtherCommand extends Command {
         List<String> pbArgs = new ArrayList<>(List.of(command));
         pbArgs.addAll(args);
         ProcessBuilder pb = new ProcessBuilder(pbArgs);
+        pb.environment().putAll(env);
         pb.directory(null);
         Process p;
         try {
@@ -43,7 +48,7 @@ public class OtherCommand extends Command {
                 String line;
                 StringBuilder result = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
-                    result.append(line).append("\n");
+                    result.append(line).append(System.getProperty("line.separator"));
                 }
                 if (result.length() != 0) {
                     result.setLength(result.length() - 1);

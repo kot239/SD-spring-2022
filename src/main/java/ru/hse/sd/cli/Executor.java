@@ -40,7 +40,7 @@ public class Executor {
                 command = new WcCommand(args, System.in, System.out);
                 break;
             default:
-                command = new OtherCommand(args_with_com.get(0), args, System.in, System.out);
+                command = new OtherCommand(args_with_com.get(0), args, System.in, System.out, memory.getAll());
                 break;
         }
         return command.execute();

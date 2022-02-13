@@ -3,7 +3,6 @@ package ru.hse.sd.cli.commands;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
@@ -13,20 +12,17 @@ import org.junit.jupiter.api.Test;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CatCommandTest {
     @Test
-    void testTooManyArgs() throws Exception {
-        URL resource1 = getClass().getClassLoader().getResource("file.txt");
-        URL resource2 = getClass().getClassLoader().getResource("file2.txt");
-        assertNotNull(resource1);
-        assertNotNull(resource2);
+    void testTooManyArgs() {
+        String filePath1 = "src/test/resources/file.txt";
+        String filePath2 = "src/test/resources/file2.txt";
 
         CatCommand cat = new CatCommand(List.of(
-                resource1.toURI().getPath(),
-                resource2.toURI().getPath()
+                filePath1,
+                filePath2
         ),
                 new ByteArrayInputStream("".getBytes()), new ByteArrayOutputStream());
 
@@ -49,20 +45,21 @@ class CatCommandTest {
 
     @Test
     void testHappyPath() throws Exception {
-        URL resource = getClass().getClassLoader().getResource("file.txt");
-        assertNotNull(resource);
+        String filePath = "src/test/resources/file.txt";
 
         CatCommand cat = new CatCommand(
-                List.of(resource.toURI().getPath()),
+                List.of(filePath),
                 new ByteArrayInputStream("".getBytes()),
                 new ByteArrayOutputStream());
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        File expectedFile = new File(resource.toURI());
+        File expectedFile = new File(filePath);
 
         String stream = cat.getOutputStream().toString();
-        assertEquals(stream, String.join("\n", FileUtils.readLines(expectedFile, StandardCharsets.UTF_8)));
+        String expected = String.join(System.getProperty("line.separator"), FileUtils.readLines(expectedFile, StandardCharsets.UTF_8));
+        assertEquals(expected, stream);
     }
+
 }

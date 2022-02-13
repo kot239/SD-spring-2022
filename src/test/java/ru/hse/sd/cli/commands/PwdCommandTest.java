@@ -23,7 +23,7 @@ class PwdCommandTest {
 
         ByteArrayOutputStream stream = (ByteArrayOutputStream) pwd.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
-        assertEquals(System.getProperty("user.dir") + "\n", output);
+        assertEquals(System.getProperty("user.dir") + System.getProperty("line.separator"), output);
     }
 
 
