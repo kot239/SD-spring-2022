@@ -23,7 +23,7 @@ class EchoCommandTest {
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) echo.getOutputStream();
+        ByteArrayOutputStream stream = echo.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertTrue(output.isEmpty());
     }
@@ -36,7 +36,7 @@ class EchoCommandTest {
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) echo.getOutputStream();
+        ByteArrayOutputStream stream = echo.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals("friend", output);
     }
@@ -49,7 +49,7 @@ class EchoCommandTest {
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) echo.getOutputStream();
+        ByteArrayOutputStream stream = echo.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals("hello my friend", output);
     }

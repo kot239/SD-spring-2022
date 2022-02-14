@@ -20,7 +20,7 @@ class OtherCommandTest {
         ReturnCode code = other.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) other.getOutputStream();
+        ByteArrayOutputStream stream = other.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals(System.getProperty("user.dir"), output);
     }

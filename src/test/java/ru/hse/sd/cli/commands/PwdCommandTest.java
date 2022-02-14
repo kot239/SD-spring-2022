@@ -19,7 +19,7 @@ class PwdCommandTest {
         ReturnCode code = pwd.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) pwd.getOutputStream();
+        ByteArrayOutputStream stream = pwd.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals(System.getProperty("user.dir") + System.getProperty("line.separator"), output);
     }

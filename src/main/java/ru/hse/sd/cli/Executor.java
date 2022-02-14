@@ -58,12 +58,16 @@ public class Executor {
         if (code == ReturnCode.FAILURE) {
             if (errorStream == null) {
                 errorStream = "";
+            } else {
+                errorStream = errorStream + "\n";
             }
-            errorStream = errorStream + "\nError in command: " + command.getCommandName();
+            errorStream = errorStream + "Error in command: " + command.getCommandName();
         }
         if (command.getErrorStream() != null) {
             if (errorStream == null) {
                 errorStream = "";
+            } else {
+                errorStream = errorStream + "\n";
             }
             errorStream = errorStream + command.getErrorStream();
         }
@@ -89,11 +93,17 @@ public class Executor {
             }
             doCommand(args);
         }
-        if (previousCommand != null && previousCommand.getOutputStream() != null) {
-            System.out.println(previousCommand.getOutputStream().toString());
-        }
         if (errorStream != null) {
             System.out.print(errorStream);
+            errorStream = null;
+        } else {
+            if (previousCommand != null && previousCommand.getOutputStream() != null) {
+                if (previousCommand.getCommandName() == "echo") {
+                    System.out.println(previousCommand.getOutputStream().toString());
+                } else {
+                    System.out.print(previousCommand.getOutputStream().toString());
+                }
+            }
         }
     }
 }
