@@ -2,8 +2,6 @@ package ru.hse.sd.cli.commands;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import ru.hse.sd.cli.enums.ReturnCode;
 

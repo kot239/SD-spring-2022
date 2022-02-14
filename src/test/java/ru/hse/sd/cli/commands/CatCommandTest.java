@@ -38,7 +38,7 @@ class CatCommandTest {
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) cat.getOutputStream();
+        ByteArrayOutputStream stream = cat.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertTrue(output.isEmpty());
     }

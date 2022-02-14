@@ -1,7 +1,6 @@
 package ru.hse.sd.cli;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
