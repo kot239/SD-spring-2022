@@ -28,7 +28,7 @@ class OtherCommandTest {
         assertEquals(ReturnCode.SUCCESS, code);
 
         ByteArrayOutputStream stream = other.getOutputStream();
-        String output = stream.toString(StandardCharsets.UTF_8);
+        String output = stream.toString(StandardCharsets.UTF_8).trim();
         assertEquals(System.getProperty("user.dir"), output);
     }
 }
