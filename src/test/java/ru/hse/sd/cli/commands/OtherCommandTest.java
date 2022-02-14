@@ -15,12 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class OtherCommandTest {
     @Test
     void testPwd() {
-        OtherCommand other = new OtherCommand("pwd", emptyList(),
-                new ByteArrayInputStream("".getBytes()), emptyMap());
+        OtherCommand other;
+        if (System.getProperty("os.name").contains("Windows")) {
+            other = new OtherCommand("cd", emptyList(),
+                    new ByteArrayInputStream("".getBytes()), emptyMap());
+        } else {
+            other = new OtherCommand("pwd", emptyList(),
+                    new ByteArrayInputStream("".getBytes()), emptyMap());
+        }
+
         ReturnCode code = other.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) other.getOutputStream();
+        ByteArrayOutputStream stream = other.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals(System.getProperty("user.dir"), output);
     }

@@ -3,7 +3,6 @@ package ru.hse.sd.cli.commands;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.List;
 
 import ru.hse.sd.cli.enums.ReturnCode;
 

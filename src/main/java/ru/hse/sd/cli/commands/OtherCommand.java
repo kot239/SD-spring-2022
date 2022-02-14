@@ -31,7 +31,13 @@ public class OtherCommand extends Command {
      */
     @Override
     public ReturnCode execute() {
-        List<String> pbArgs = new ArrayList<>(List.of(command));
+        List<String> pbArgs;
+        if (System.getProperty("os.name").contains("Windows")) {
+            pbArgs = new ArrayList<>(List.of("cmd", "/c", command));
+        } else {
+            pbArgs = new ArrayList<>(List.of(command));
+        }
+
         pbArgs.addAll(args);
         ProcessBuilder pb = new ProcessBuilder(pbArgs);
         pb.environment().putAll(env);

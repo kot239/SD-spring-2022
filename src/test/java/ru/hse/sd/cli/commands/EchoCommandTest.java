@@ -2,7 +2,6 @@ package ru.hse.sd.cli.commands;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EchoCommandTest {
@@ -23,7 +21,7 @@ class EchoCommandTest {
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) echo.getOutputStream();
+        ByteArrayOutputStream stream = echo.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertTrue(output.isEmpty());
     }
@@ -36,7 +34,7 @@ class EchoCommandTest {
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) echo.getOutputStream();
+        ByteArrayOutputStream stream = echo.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals("friend", output);
     }
@@ -49,7 +47,7 @@ class EchoCommandTest {
         ReturnCode code = echo.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
-        ByteArrayOutputStream stream = (ByteArrayOutputStream) echo.getOutputStream();
+        ByteArrayOutputStream stream = echo.getOutputStream();
         String output = stream.toString(StandardCharsets.UTF_8);
         assertEquals("hello my friend", output);
     }
