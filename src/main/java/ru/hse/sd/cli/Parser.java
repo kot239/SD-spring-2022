@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
 public class Parser {
     private final char DOUBLE_QUOTES = '\"';
     private final char SINGLE_QUOTES = '\'';
+    private final String GREP = "grep";
 
 
     private int cntOfSymbols(String line, char symbol) {
@@ -62,11 +63,20 @@ public class Parser {
         return tokens;
     }
 
+    private boolean hasGrep(List<RawArg> args) {
+        boolean has_grep = false;
+        for (RawArg arg: args) {
+            has_grep |= arg.arg.equals(GREP);
+        }
+        return has_grep;
+    }
+
     private List<RawArg> tokenizeQuotes(String line, Borders borders, boolean can_substitute) {
         List<RawArg> res = new LinkedList<>();
         List<RawArg> left = tokenize(line.substring(0, borders.left));
         res.addAll(left);
-        res.add(new RawArg(line.substring(borders.left + 1, borders.right), can_substitute));
+        res.add(new RawArg(line.substring(borders.left + 1, borders.right),
+                can_substitute && !hasGrep(left)));
         List<RawArg> right = tokenize(line.substring(borders.right + 1));
         res.addAll(right);
         return res;

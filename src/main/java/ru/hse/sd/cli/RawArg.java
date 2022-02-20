@@ -1,6 +1,8 @@
 package ru.hse.sd.cli;
 
 
+import ru.hse.sd.cli.exceptions.ParserException;
+
 /**
  * Class that have information about argument and makes
  * substitution and assignment if it's necessary
@@ -31,9 +33,12 @@ public class RawArg {
                     && this.arg.charAt(end_pos) != '\'') {
                 end_pos++;
             }
+            var value = memory.get(this.arg.substring(substitution_pos + 1, end_pos));
+            if (value == null) {
+                value = "";
+            }
             this.arg = this.arg.substring(0, substitution_pos)
-                    + memory.get(this.arg.substring(substitution_pos + 1, end_pos))
-                    + this.arg.substring(end_pos);
+                    + value + this.arg.substring(end_pos);
         }
         return this.arg;
     }
