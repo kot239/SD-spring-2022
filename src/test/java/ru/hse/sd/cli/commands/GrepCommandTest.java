@@ -58,4 +58,21 @@ public class GrepCommandTest {
         assertEquals(expected, stream);
     }
 
+    @Test
+    void testIFlagFile() throws IOException {
+        String filePath = "src/test/resources/grep/sea.txt";
+        GrepCommand grep = new GrepCommand(List.of("море", "-i", filePath),
+                new ByteArrayInputStream("".getBytes()));
+
+        ReturnCode code = grep.execute();
+        assertEquals(ReturnCode.SUCCESS, code);
+
+        String stream = grep.getOutputStream().toString();
+
+        File expectedFile = new File(filePath);
+        String expected = String.join(System.getProperty("line.separator"), FileUtils.readLines(expectedFile, StandardCharsets.UTF_8));
+
+        assertEquals(expected, stream);
+    }
+
 }

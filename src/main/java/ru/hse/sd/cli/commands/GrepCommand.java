@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -90,12 +91,22 @@ public class GrepCommand extends Command {
         }
         // todo учитывать флаги
 
-        Pattern pattern = Pattern.compile(regExpr);
+        Pattern pattern;
+        if (cmd.hasOption("i")) {
+            pattern = Pattern.compile(regExpr, Pattern.CASE_INSENSITIVE);
+        } else {
+            pattern = Pattern.compile(regExpr);
+        }
 
         List<String> result = new ArrayList<>();
 
         for (String line : lines) {
-            Matcher matcher = pattern.matcher(line);
+            Matcher matcher;
+            if (cmd.hasOption("i")) {
+                matcher = pattern.matcher(line.toLowerCase());
+            } else {
+                matcher = pattern.matcher(line);
+            }
             if (matcher.find()) {
                 result.add(line);
             }
