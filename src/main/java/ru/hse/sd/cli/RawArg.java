@@ -1,8 +1,5 @@
 package ru.hse.sd.cli;
 
-
-import ru.hse.sd.cli.exceptions.ParserException;
-
 /**
  * Class that have information about argument and makes
  * substitution and assignment if it's necessary

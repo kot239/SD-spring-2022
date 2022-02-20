@@ -3,6 +3,7 @@ package ru.hse.sd.cli;
 import java.io.ByteArrayInputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import ru.hse.sd.cli.enums.ReturnCode;
 import ru.hse.sd.cli.commands.*;
@@ -100,7 +101,7 @@ public class Executor {
             errorStream = null;
         } else {
             if (previousCommand != null && previousCommand.getOutputStream() != null) {
-                if (previousCommand.getCommandName() == "echo") {
+                if (Objects.equals(previousCommand.getCommandName(), "echo")) {
                     System.out.println(previousCommand.getOutputStream().toString());
                 } else {
                     System.out.print(previousCommand.getOutputStream().toString());

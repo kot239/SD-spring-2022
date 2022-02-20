@@ -103,4 +103,37 @@ public class GrepCommandTest {
         assertEquals("abcd", stream);
     }
 
+    @Test
+    void testAFlagWithIntersectionFile() throws IOException {
+        String filePath = "src/test/resources/grep/kuku.txt";
+        GrepCommand grep = new GrepCommand(List.of("kuku", "-A", "4", filePath),
+                new ByteArrayInputStream("".getBytes()));
+
+        ReturnCode code = grep.execute();
+        assertEquals(ReturnCode.SUCCESS, code);
+
+        String stream = grep.getOutputStream().toString();
+
+        File expectedFile = new File(filePath);
+        String expected = String.join(System.getProperty("line.separator"), FileUtils.readLines(expectedFile, StandardCharsets.UTF_8));
+
+        assertEquals(expected, stream);
+    }
+
+    @Test
+    void testAFlagFile() {
+        String filePath = "src/test/resources/grep/abcd.txt";
+        GrepCommand grep = new GrepCommand(List.of("aBc", "-A", "1", filePath),
+                new ByteArrayInputStream("".getBytes()));
+
+        ReturnCode code = grep.execute();
+        assertEquals(ReturnCode.SUCCESS, code);
+
+        String stream = grep.getOutputStream().toString();
+
+        String expected = "aBc" + System.getProperty("line.separator") + "abcd";
+
+        assertEquals(expected, stream);
+    }
+
 }

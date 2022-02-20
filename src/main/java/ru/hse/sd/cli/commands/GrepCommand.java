@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +46,9 @@ public class GrepCommand extends Command {
         return options;
     }
 
+    /*
+     * Execute grep command
+     */
     @Override
     public ReturnCode execute() {
         CommandLineParser parser = new DefaultParser();
@@ -89,7 +91,6 @@ public class GrepCommand extends Command {
                 return ReturnCode.FAILURE;
             }
         }
-        // todo учитывать флаги
 
         Pattern pattern;
         if (cmd.hasOption("w")) {
@@ -103,6 +104,7 @@ public class GrepCommand extends Command {
 
         List<String> result = new ArrayList<>();
 
+        int numOfLines = 0;
         for (String line : lines) {
             Matcher matcher;
             if (cmd.hasOption("i")) {
@@ -111,6 +113,10 @@ public class GrepCommand extends Command {
                 matcher = pattern.matcher(line);
             }
             if (matcher.find()) {
+                result.add(line);
+                numOfLines = Integer.parseInt(cmd.getOptionValue("A", "0"));
+            } else if (numOfLines > 0) {
+                numOfLines--;
                 result.add(line);
             }
         }

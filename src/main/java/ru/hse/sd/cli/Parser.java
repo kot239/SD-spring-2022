@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
 public class Parser {
     private final char DOUBLE_QUOTES = '\"';
     private final char SINGLE_QUOTES = '\'';
-    private final String GREP = "grep";
+    private static final String GREP = "grep";
 
 
     private int cntOfSymbols(String line, char symbol) {
