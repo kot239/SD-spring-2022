@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -23,7 +26,7 @@ import ru.hse.sd.cli.enums.ReturnCode;
 public class GrepCommand extends Command {
     private final List<String> args;
     /*
-     * Constructor which takes arguments for cat command
+     * Constructor which takes arguments for grep command
      */
     public GrepCommand(List<String> args, ByteArrayInputStream inputStream) {
         this.command = "grep";
@@ -65,7 +68,6 @@ public class GrepCommand extends Command {
 
         String regExpr = commandArgs.get(0);
 
-
         List<String> lines;
         if (commandArgs.size() == 1) {
             // read from inputStream
@@ -86,6 +88,24 @@ public class GrepCommand extends Command {
                 return ReturnCode.FAILURE;
             }
         }
-        return null;
+        // todo учитывать флаги
+
+        Pattern pattern = Pattern.compile(regExpr);
+
+        List<String> result = new ArrayList<>();
+
+        for (String line : lines) {
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                result.add(line);
+            }
+        }
+        try {
+            outputStream.write(String.join(System.getProperty("line.separator"), result).getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            errorStream = e.getMessage();
+            return ReturnCode.FAILURE;
+        }
+        return ReturnCode.SUCCESS;
     }
 }
