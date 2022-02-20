@@ -16,9 +16,9 @@ public class GrepCommandTest {
 
     @Test
     void testNoFlagsInputStream() {
-        String text = "Море, море, море, океан";
+        String text = "Sea, sea, sea, ocean";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
-        GrepCommand grep = new GrepCommand(List.of("море"), inputStream);
+        GrepCommand grep = new GrepCommand(List.of("sea"), inputStream);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -30,21 +30,21 @@ public class GrepCommandTest {
     @Test
     void testNoFlagsFile() {
         String filePath = "src/test/resources/grep/sea.txt";
-        GrepCommand grep = new GrepCommand(List.of("море", filePath),
+        GrepCommand grep = new GrepCommand(List.of("sea", filePath),
                 new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
 
         String stream = grep.getOutputStream().toString();
-        String expected = "море, океан";
+        String expected = "sea, ocean";
         assertEquals(expected, stream);
     }
 
     @Test
     void testNoFlagsEverythingMatches() throws IOException {
         String filePath = "src/test/resources/grep/sea.txt";
-        GrepCommand grep = new GrepCommand(List.of("океан", filePath),
+        GrepCommand grep = new GrepCommand(List.of("ocean", filePath),
                 new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = grep.execute();
@@ -61,7 +61,7 @@ public class GrepCommandTest {
     @Test
     void testIFlagFile() throws IOException {
         String filePath = "src/test/resources/grep/sea.txt";
-        GrepCommand grep = new GrepCommand(List.of("море", "-i", filePath),
+        GrepCommand grep = new GrepCommand(List.of("sea", "-i", filePath),
                 new ByteArrayInputStream("".getBytes()));
 
         ReturnCode code = grep.execute();
