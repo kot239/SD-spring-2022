@@ -20,7 +20,7 @@
 
 `./gradlew test`
 
-![Схема архитектуры](https://github.com/kot239/SD-spring-2022/blob/task-1/CLIArchitecture.png)
+![Схема архитектуры](https://github.com/kot239/SD-spring-2022/blob/task-2-3/CLIArchitecture.png)
 
 ## Общий принцип работы
 
