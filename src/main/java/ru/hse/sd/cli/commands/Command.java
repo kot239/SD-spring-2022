@@ -12,6 +12,7 @@ public abstract class Command {
     public static final String CAT = "cat";
     public static final String ECHO ="echo";
     public static final String EXIT = "exit";
+    public static final String GREP = "grep";
     public static final String PWD = "pwd";
     public static final String WC = "wc";
 

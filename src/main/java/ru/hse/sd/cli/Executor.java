@@ -41,6 +41,9 @@ public class Executor {
                 command = new ExitCommand();
                 System.exit(0);
                 break;
+            case Command.GREP:
+                command = new GrepCommand(args, inputStream);
+                break;
             case Command.PWD:
                 command = new PwdCommand(inputStream);
                 break;
