@@ -1,0 +1,6 @@
+a
+ab
+aBc
+abcd
+abcDe
+abCdef

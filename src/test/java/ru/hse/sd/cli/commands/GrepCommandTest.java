@@ -75,4 +75,32 @@ public class GrepCommandTest {
         assertEquals(expected, stream);
     }
 
+    @Test
+    void testWFlagFile() {
+        String filePath = "src/test/resources/grep/sea.txt";
+        GrepCommand grep = new GrepCommand(List.of("se", "-w", filePath),
+                new ByteArrayInputStream("".getBytes()));
+
+        ReturnCode code = grep.execute();
+        assertEquals(ReturnCode.SUCCESS, code);
+
+        String stream = grep.getOutputStream().toString();
+
+        assertEquals("", stream);
+    }
+
+    @Test
+    void testWIFlagsFile() {
+        String filePath = "src/test/resources/grep/abcd.txt";
+        GrepCommand grep = new GrepCommand(List.of("abcd", "-w", "-i", filePath),
+                new ByteArrayInputStream("".getBytes()));
+
+        ReturnCode code = grep.execute();
+        assertEquals(ReturnCode.SUCCESS, code);
+
+        String stream = grep.getOutputStream().toString();
+
+        assertEquals("abcd", stream);
+    }
+
 }

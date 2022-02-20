@@ -92,6 +92,9 @@ public class GrepCommand extends Command {
         // todo учитывать флаги
 
         Pattern pattern;
+        if (cmd.hasOption("w")) {
+            regExpr = "\\b" + regExpr + "\\b";
+        }
         if (cmd.hasOption("i")) {
             pattern = Pattern.compile(regExpr, Pattern.CASE_INSENSITIVE);
         } else {
