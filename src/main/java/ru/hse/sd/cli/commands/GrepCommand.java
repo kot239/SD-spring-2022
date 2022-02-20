@@ -2,8 +2,19 @@ package ru.hse.sd.cli.commands;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.IOUtils;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
@@ -21,8 +32,60 @@ public class GrepCommand extends Command {
         this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
     }
 
+    private Options createOptions() {
+        Options options = new Options();
+        options.addOption("w", false, "word regexp");
+        options.addOption("i", false,
+                "Ignore  case  distinctions,  so that characters that differ only in case match each other.");
+        options.addOption("A", true,
+                "Print NUM lines of trailing context after  matching  lines");
+
+        return options;
+    }
+
     @Override
     public ReturnCode execute() {
+        CommandLineParser parser = new DefaultParser();
+        Options options = createOptions();
+        CommandLine cmd;
+        try {
+            cmd = parser.parse(options, args.toArray(new String[0]));
+        } catch (ParseException e) {
+            errorStream = e.getMessage();
+            return ReturnCode.FAILURE;
+        }
+
+        // get not flags
+        List<String> commandArgs = cmd.getArgList();
+
+        if (commandArgs.isEmpty()) {
+            errorStream = "At least one argument should be passed (regexp)";
+            return ReturnCode.FAILURE;
+        }
+
+        String regExpr = commandArgs.get(0);
+
+
+        List<String> lines;
+        if (commandArgs.size() == 1) {
+            // read from inputStream
+            try {
+                lines = IOUtils.readLines(inputStream, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
+        } else {
+            // read from file
+            String fileName = commandArgs.get(1);
+            try {
+                lines = Files.readAllLines(new File(fileName).toPath(),
+                        Charset.defaultCharset());
+            } catch (IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
+        }
         return null;
     }
 }
