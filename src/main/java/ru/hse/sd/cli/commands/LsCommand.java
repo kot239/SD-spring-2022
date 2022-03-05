@@ -28,7 +28,12 @@ public class LsCommand extends Command {
         this.memory = memory;
     }
 
-    private ReturnCode processFiles(Path path) {
+    /**
+     * Traverses files in a directory and prints them to output stream
+     * @param path directory in which files will be processed
+     * @throws IOException if writing to output stream was not successful
+     */
+    private void processFiles(Path path) throws IOException {
         ArrayList<String> res = new ArrayList<>();
         Arrays.stream(Objects.requireNonNull(new File(String.valueOf(path))
                         .listFiles()))
@@ -36,21 +41,27 @@ public class LsCommand extends Command {
                 .sorted()
                 .forEach(f -> res.add(f + '\n'));
         for (String f : res) {
-            try {
-                outputStream.write(f.getBytes(StandardCharsets.UTF_8));
-            } catch (IOException e) {
-                errorStream = e.getMessage();
-                return ReturnCode.FAILURE;
-            }
+            outputStream.write(f.getBytes(StandardCharsets.UTF_8));
         }
-        return ReturnCode.SUCCESS;
     }
 
+    /**
+     * If args field is empty - prints contents of current directory
+     * Otherwise prints contents of each directory given as an argument or name of each file given an argument
+     * If any file or directory was not found - prints a message about it and proceeds processing arguments
+     *
+     * @return ReturnCode
+     */
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {
             Path path = memory.getCurrentDirectory();
-            return processFiles(path);
+            try {
+                processFiles(path);
+            } catch (IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
         }
         for (String arg : args) {
             if (Files.isDirectory(Path.of(arg))) {
@@ -77,8 +88,10 @@ public class LsCommand extends Command {
                     errorStream = e.getMessage();
                     return ReturnCode.FAILURE;
                 }
-                ReturnCode code = processFiles(path);
-                if (code == ReturnCode.FAILURE) {
+                try {
+                    processFiles(path);
+                } catch (IOException e) {
+                    errorStream = e.getMessage();
                     return ReturnCode.FAILURE;
                 }
             } else {
