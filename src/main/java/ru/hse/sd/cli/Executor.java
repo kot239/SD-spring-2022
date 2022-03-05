@@ -49,7 +49,10 @@ public class Executor {
                 command = new PwdCommand(inputStream);
                 break;
             case Command.WC:
-                command = new WcCommand(args,inputStream);
+                command = new WcCommand(args, inputStream);
+                break;
+            case Command.CD:
+                command = new CdCommand(args, inputStream, memory);
                 break;
             default:
                 command = new OtherCommand(argsWithCom.get(0), args, inputStream, memory.getAll());

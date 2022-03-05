@@ -1,5 +1,7 @@
 package ru.hse.sd.cli;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import java.util.Map;
  */
 public class Memory {
     private final Map<String, String> storage;
+    private Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
     public Memory() {
         storage = new HashMap<>();
@@ -50,5 +53,21 @@ public class Memory {
      */
     public void putAll(Map<String, String> m) {
         storage.putAll(m);
+    }
+
+    public void resetCurrentDirectory() {
+        currentDirectory = Paths.get(System.getProperty("user.dir"));
+    }
+
+    public void changeCurrentDirectory(String path) {
+        currentDirectory = currentDirectory.resolve(path);
+    }
+
+    public Path resolveCurrentDirectory(String path) {
+        return currentDirectory.resolve(path);
+    }
+
+    public Path getCurrentDirectory() {
+        return currentDirectory;
     }
 }
