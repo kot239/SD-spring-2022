@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,6 +19,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
@@ -25,14 +27,17 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class GrepCommand extends Command {
     private final List<String> args;
+    private Memory memory;
+
     /*
      * Constructor which takes arguments for grep command
      */
-    public GrepCommand(List<String> args, ByteArrayInputStream inputStream) {
+    public GrepCommand(List<String> args, ByteArrayInputStream inputStream, Memory memory) {
         this.command = "grep";
         this.args = args;
         this.inputStream = inputStream;
         this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
+        this.memory = memory;
     }
 
     private Options createOptions() {
@@ -82,9 +87,18 @@ public class GrepCommand extends Command {
             }
         } else {
             // read from file
-            String fileName = commandArgs.get(1);
+            Path path = memory.resolveCurrentDirectory(commandArgs.get(1));
+            if (path == null) {
+                errorStream = "Wrong file path\n";
+                return ReturnCode.FAILURE;
+            }
+            File f = path.toFile();
+            if (!f.exists()) {
+                errorStream = path + ": No such file or directory\n";
+                return ReturnCode.FAILURE;
+            }
             try {
-                lines = Files.readAllLines(new File(fileName).toPath(),
+                lines = Files.readAllLines(path,
                         Charset.defaultCharset());
             } catch (IOException e) {
                 errorStream = e.getMessage();

@@ -33,7 +33,7 @@ public class Executor {
         }
         switch (argsWithCom.get(0)) {
             case Command.CAT:
-                command = new CatCommand(args, inputStream);
+                command = new CatCommand(args, inputStream, memory);
                 break;
             case Command.ECHO:
                 command = new EchoCommand(args, inputStream);
@@ -43,10 +43,10 @@ public class Executor {
                 System.exit(0);
                 break;
             case Command.GREP:
-                command = new GrepCommand(args, inputStream);
+                command = new GrepCommand(args, inputStream, memory);
                 break;
             case Command.PWD:
-                command = new PwdCommand(inputStream);
+                command = new PwdCommand(inputStream, memory);
                 break;
             case Command.WC:
                 command = new WcCommand(args, inputStream);

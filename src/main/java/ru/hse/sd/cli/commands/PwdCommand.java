@@ -2,22 +2,24 @@ package ru.hse.sd.cli.commands;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
  * Implementation of Bash's pwd command
  */
 public class PwdCommand extends Command {
+    private Memory memory;
 
     /*
      * Constructor for pwd command
      */
-    public PwdCommand(ByteArrayInputStream inputStream) {
+    public PwdCommand(ByteArrayInputStream inputStream, Memory memory) {
         this.command = "pwd";
         this.inputStream = inputStream;
         this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
+        this.memory = memory;
     }
 
     /*
@@ -25,10 +27,10 @@ public class PwdCommand extends Command {
      */
     @Override
     public ReturnCode execute() {
-        String curDirectory = Paths.get("").toAbsolutePath() + System.getProperty("line.separator");
+        String curDirectory = memory.getCurrentDirectory().toAbsolutePath() + System.getProperty("line.separator");
         try {
             outputStream.write(curDirectory.getBytes(StandardCharsets.UTF_8));
-        } catch(IOException e) {
+        } catch (IOException e) {
             errorStream = e.getMessage();
             return ReturnCode.FAILURE;
         }
