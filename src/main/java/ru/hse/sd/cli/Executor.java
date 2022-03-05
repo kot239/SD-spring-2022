@@ -55,7 +55,7 @@ public class Executor {
                 command = new CdCommand(args, inputStream, memory);
                 break;
             default:
-                command = new OtherCommand(argsWithCom.get(0), args, inputStream, memory.getAll());
+                command = new OtherCommand(argsWithCom.get(0), args, inputStream, memory);
                 break;
         }
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
@@ -13,17 +14,17 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class OtherCommand extends Command {
     private final List<String> args;
-    private final Map<String, String> env;
+    private final Memory memory;
 
     /*
      * Constructor with command name and arguments
      */
-    public OtherCommand(String command, List<String> args, ByteArrayInputStream inputStream, Map<String, String> env) {
+    public OtherCommand(String command, List<String> args, ByteArrayInputStream inputStream, Memory memory) {
         this.command = command;
         this.args = args;
         this.inputStream = inputStream;
         this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
-        this.env = env;
+        this.memory = memory;
     }
 
     /*
@@ -40,8 +41,8 @@ public class OtherCommand extends Command {
 
         pbArgs.addAll(args);
         ProcessBuilder pb = new ProcessBuilder(pbArgs);
-        pb.environment().putAll(env);
-        pb.directory(null);
+        pb.environment().putAll(memory.getAll());
+        pb.directory(new File(String.valueOf(memory.getCurrentDirectory())));
         Process p;
         try {
             p = pb.start();
@@ -56,7 +57,7 @@ public class OtherCommand extends Command {
                 }
                 try {
                     outputStream.write(result.toString().getBytes(StandardCharsets.UTF_8));
-                } catch(IOException e) {
+                } catch (IOException e) {
                     errorStream = e.getMessage();
                     return ReturnCode.FAILURE;
                 }
