@@ -14,7 +14,7 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class CatCommand extends Command {
     private final List<String> args;
-    private Memory memory;
+    private final Memory memory;
 
     /*
      * Constructor which takes arguments for cat command

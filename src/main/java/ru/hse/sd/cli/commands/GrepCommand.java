@@ -27,7 +27,7 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class GrepCommand extends Command {
     private final List<String> args;
-    private Memory memory;
+    private final Memory memory;
 
     /*
      * Constructor which takes arguments for grep command

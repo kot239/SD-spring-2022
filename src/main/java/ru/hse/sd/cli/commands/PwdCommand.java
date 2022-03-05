@@ -10,7 +10,7 @@ import ru.hse.sd.cli.enums.ReturnCode;
  * Implementation of Bash's pwd command
  */
 public class PwdCommand extends Command {
-    private Memory memory;
+    private final Memory memory;
 
     /*
      * Constructor for pwd command
