@@ -54,6 +54,9 @@ public class Executor {
             case Command.CD:
                 command = new CdCommand(args, inputStream, memory);
                 break;
+            case Command.LS:
+                command = new LsCommand(args, inputStream, memory);
+                break;
             default:
                 command = new OtherCommand(argsWithCom.get(0), args, inputStream, memory);
                 break;
