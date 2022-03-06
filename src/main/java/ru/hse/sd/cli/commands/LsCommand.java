@@ -30,6 +30,7 @@ public class LsCommand extends Command {
 
     /**
      * Traverses files in a directory and prints them to output stream
+     *
      * @param path directory in which files will be processed
      * @throws IOException if writing to output stream was not successful
      */
@@ -47,13 +48,17 @@ public class LsCommand extends Command {
 
     /**
      * If args field is empty - prints contents of current directory
-     * Otherwise prints contents of each directory given as an argument or name of each file given an argument
-     * If any file or directory was not found - prints a message about it and proceeds processing arguments
+     * Otherwise prints contents of a directory given as an argument or name of a file given an argument
+     * If file or directory was not found - prints a message about
      *
      * @return ReturnCode
      */
     @Override
     public ReturnCode execute() {
+        if (args.size() > 1) {
+            errorStream = "Too many arguments were provided, must be 1";
+            return ReturnCode.FAILURE;
+        }
         if (args.isEmpty()) {
             Path path = memory.getCurrentDirectory();
             try {
@@ -62,56 +67,34 @@ public class LsCommand extends Command {
                 errorStream = e.getMessage();
                 return ReturnCode.FAILURE;
             }
+            return ReturnCode.SUCCESS;
         }
-        for (String arg : args) {
-            if (Files.isDirectory(Path.of(arg))) {
-                Path path;
-                if (!Files.exists(Path.of(arg))) {
-                    path = memory.resolveCurrentDirectory(arg);
-                    if (!Files.exists(Path.of(String.valueOf(path)))) {
-                        String err = "\nNo such directory " + arg + '\n';
-                        try {
-                            outputStream.write(err.getBytes(StandardCharsets.UTF_8));
-                        } catch (IOException e) {
-                            errorStream = e.getMessage();
-                            return ReturnCode.FAILURE;
-                        }
-                        continue;
-                    }
-                } else {
-                    path = Path.of(arg);
-                }
-                String directory = "\n" + path + ":\n";
-                try {
-                    outputStream.write(directory.getBytes(StandardCharsets.UTF_8));
-                } catch (IOException e) {
-                    errorStream = e.getMessage();
-                    return ReturnCode.FAILURE;
-                }
-                try {
-                    processFiles(path);
-                } catch (IOException e) {
-                    errorStream = e.getMessage();
-                    return ReturnCode.FAILURE;
+        String arg = args.get(0);
+        if (Files.isDirectory(Path.of(arg))) {
+            Path path;
+            if (!Files.exists(Path.of(arg))) {
+                path = memory.resolveCurrentDirectory(arg);
+                if (!Files.exists(Path.of(String.valueOf(path)))) {
+                    errorStream = "No such directory " + arg;
                 }
             } else {
-                if (!Files.exists(Path.of(arg))) {
-                    String err = "\nNo such file " + arg + '\n';
-                    try {
-                        outputStream.write(err.getBytes(StandardCharsets.UTF_8));
-                    } catch (IOException e) {
-                        errorStream = e.getMessage();
-                        return ReturnCode.FAILURE;
-                    }
-                    continue;
-                }
-                arg += '\n';
-                try {
-                    outputStream.write(arg.getBytes(StandardCharsets.UTF_8));
-                } catch (IOException e) {
-                    errorStream = e.getMessage();
-                    return ReturnCode.FAILURE;
-                }
+                path = Path.of(arg);
+            }
+            try {
+                processFiles(path);
+            } catch (IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
+            }
+        } else {
+            if (!Files.exists(Path.of(arg))) {
+                errorStream = "No such file " + arg;
+            }
+            try {
+                outputStream.write(arg.getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                errorStream = e.getMessage();
+                return ReturnCode.FAILURE;
             }
         }
         return ReturnCode.SUCCESS;

@@ -47,7 +47,7 @@ public class LsCommandTest {
     }
 
     @Test
-    public void testLsMultipleArgs() throws IOException {
+    public void testLsBasicArgs() throws IOException {
         Path dirFst = Path.of(temporaryFolder.getPath()).resolve("dir1");
         Files.createDirectory(dirFst);
         Path dirSnd = Path.of(temporaryFolder.getPath()).resolve("dir2");
@@ -55,13 +55,12 @@ public class LsCommandTest {
         createTempFiles(new File(String.valueOf(dirFst)));
         createTempFiles(new File(String.valueOf(dirSnd)));
         memory.changeCurrentDirectory(String.valueOf(temporaryFolder));
-        LsCommand ls = new LsCommand(List.of(temporaryFolder + File.separator + "dir1",
-                temporaryFolder + File.separator + "dir2"), new ByteArrayInputStream("".getBytes()), memory);
+        LsCommand ls = new LsCommand(List.of(temporaryFolder + File.separator + "dir1"),
+                new ByteArrayInputStream("".getBytes()), memory);
         ReturnCode result = ls.execute();
         Assertions.assertEquals(ReturnCode.SUCCESS, result);
-        Assertions.assertEquals("\n" + temporaryFolder + File.separator + "dir1:\n" + "test_file1.txt\n" +
-                "test_file2.txt\n\n" + temporaryFolder + File.separator + "dir2:\n" + "test_file1.txt\n" +
-                "test_file2.txt\n", ls.getOutputStream().toString());
+        Assertions.assertEquals("test_file1.txt\n" + "test_file2.txt\n",
+                ls.getOutputStream().toString());
     }
 
     @Test
@@ -71,17 +70,26 @@ public class LsCommandTest {
         LsCommand ls = new LsCommand(List.of(emptyDir.toString()), new ByteArrayInputStream("".getBytes()), memory);
         ReturnCode result = ls.execute();
         Assertions.assertEquals(ReturnCode.SUCCESS, result);
-        Assertions.assertEquals('\n' + emptyDir.toString() + ":\n", ls.getOutputStream().toString());
+        Assertions.assertEquals("", ls.getOutputStream().toString());
     }
 
     @Test
     public void testLsFiles() {
         createTempFiles(temporaryFolder);
-        LsCommand ls = new LsCommand(List.of(temporaryFolder + File.separator + "test_file1.txt",
-                temporaryFolder + File.separator + "test_file2.txt"), new ByteArrayInputStream("".getBytes()), memory);
+        LsCommand ls = new LsCommand(List.of(temporaryFolder + File.separator + "test_file1.txt"),
+                new ByteArrayInputStream("".getBytes()), memory);
         ReturnCode result = ls.execute();
         Assertions.assertEquals(ReturnCode.SUCCESS, result);
-        Assertions.assertEquals(temporaryFolder + File.separator + "test_file1.txt\n" +
-                temporaryFolder + File.separator + "test_file2.txt\n", ls.getOutputStream().toString());
+        Assertions.assertEquals(temporaryFolder + File.separator + "test_file1.txt",
+                ls.getOutputStream().toString());
+    }
+
+    @Test
+    public void testLsTooManyArgs() {
+        createTempFiles(temporaryFolder);
+        LsCommand ls = new LsCommand(List.of(temporaryFolder + File.separator + "test_file1.txt", "something else"),
+                new ByteArrayInputStream("".getBytes()), memory);
+        ReturnCode result = ls.execute();
+        Assertions.assertEquals(ReturnCode.FAILURE, result);
     }
 }
