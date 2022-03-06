@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * Implementation of Bash's cd command
+ */
 public class CdCommand extends Command {
     private final List<String> args;
     private Memory memory;
@@ -22,6 +25,13 @@ public class CdCommand extends Command {
         this.memory = memory;
     }
 
+    /**
+     * If args field is empty - resets directory to the initial one
+     * If there is only one argument - try to change current directory according to this argument
+     * If there are two or more arguments or something went wrong during the directory changing process - prints a message about error
+     *
+     * @return ReturnCode (SUCCESS if the directory has been successfully changed, FAILURE - otherwise)
+     */
     @Override
     public ReturnCode execute() {
         if (args.isEmpty()) {
