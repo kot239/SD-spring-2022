@@ -20,9 +20,9 @@ public class Executor {
     private Command previousCommand;
     private String errorStream;
 
-    private void doCommand(List<String> argsWithCom) {
+    private int doCommand(List<String> argsWithCom) {
         if (argsWithCom.isEmpty()) {
-            return;
+            return 0;
         }
         Command command;
         List<String> args = argsWithCom.subList(1, argsWithCom.size());
@@ -40,7 +40,6 @@ public class Executor {
                 break;
             case Command.EXIT:
                 command = new ExitCommand();
-                System.exit(0);
                 break;
             case Command.GREP:
                 command = new GrepCommand(args, inputStream);
@@ -58,6 +57,10 @@ public class Executor {
 
         previousCommand = command;
         var code = command.execute();
+        if (code == ReturnCode.EXIT) {
+            return 1;
+        }
+
         if (code == ReturnCode.FAILURE) {
             if (errorStream == null) {
                 errorStream = "";
@@ -74,6 +77,7 @@ public class Executor {
             }
             errorStream = errorStream + command.getErrorStream();
         }
+        return 0;
     }
 
     /**
@@ -82,7 +86,7 @@ public class Executor {
      *
      * @param input String from the console
      */
-    public void execute(String input) {
+    public int execute(String input) {
         var parser = new Parser();
         List<List<RawArg>> raw_commands = parser.parse(input);
         previousCommand = null;
@@ -94,7 +98,10 @@ public class Executor {
                     args.add(word);
                 }
             }
-            doCommand(args);
+            var code = doCommand(args);
+            if (code == 1) {
+                return code;
+            }
         }
         if (errorStream != null) {
             System.out.print(errorStream);
@@ -108,5 +115,6 @@ public class Executor {
                 }
             }
         }
+        return 0;
     }
 }

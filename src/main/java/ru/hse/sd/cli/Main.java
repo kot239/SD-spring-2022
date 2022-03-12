@@ -6,7 +6,10 @@ public class Main {
         Executor executor = new Executor();
         while (true) {
             String input = System.console().readLine();
-            executor.execute(input);
+            var code = executor.execute(input);
+            if (code == 1) {
+                break;
+            }
         }
     }
 
