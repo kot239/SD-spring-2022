@@ -21,7 +21,7 @@ import org.apache.commons.io.IOUtils;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
- * Implementation of Bash's grep command
+ * Implementation of grep command
  */
 public class GrepCommand extends Command {
     private final List<String> args;
@@ -76,6 +76,10 @@ public class GrepCommand extends Command {
             // read from inputStream
             try {
                 lines = IOUtils.readLines(inputStream, StandardCharsets.UTF_8);
+                if (lines.isEmpty()) {
+                    errorStream = "No file to read from is found";
+                    return ReturnCode.FAILURE;
+                }
             } catch (IOException e) {
                 errorStream = e.getMessage();
                 return ReturnCode.FAILURE;
@@ -96,11 +100,22 @@ public class GrepCommand extends Command {
         if (cmd.hasOption("w")) {
             regExpr = "\\b" + regExpr + "\\b";
         }
+
+        if (cmd.hasOption("A")) {
+            try {
+                Integer.parseInt(cmd.getOptionValue("A"));
+            } catch (Exception e) {
+                errorStream = "Missing argument for option: A";
+                return ReturnCode.FAILURE;
+            }
+        }
+
         if (cmd.hasOption("i")) {
             pattern = Pattern.compile(regExpr, Pattern.CASE_INSENSITIVE);
         } else {
             pattern = Pattern.compile(regExpr);
         }
+
 
         List<String> result = new ArrayList<>();
 
