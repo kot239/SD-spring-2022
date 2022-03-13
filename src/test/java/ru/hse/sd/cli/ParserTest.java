@@ -91,4 +91,19 @@ public class ParserTest {
         List<List<RawArg>> res = parser.parse(input);
         checkParsedInput(ans, res);
     }
+
+    @Test
+    void testEndDoubleQuotes() {
+        Parser parser = new Parser();
+        String input = "echo \"LOLA$\"";
+
+        List<List<RawArg>> ans = new LinkedList<>();
+        List<RawArg> command = new LinkedList<>();
+        command.add(new RawArg("echo", false));
+        command.add(new RawArg("LOLA$", false));
+        ans.add(command);
+
+        List<List<RawArg>> res = parser.parse(input);
+        checkParsedInput(ans, res);
+    }
 }

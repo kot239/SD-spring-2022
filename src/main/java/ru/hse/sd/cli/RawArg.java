@@ -30,6 +30,9 @@ public class RawArg {
                     && this.arg.charAt(end_pos) != '\'') {
                 end_pos++;
             }
+            if (substitution_pos + 1 == end_pos) {
+                return this.arg;
+            }
             var value = memory.get(this.arg.substring(substitution_pos + 1, end_pos));
             if (value == null) {
                 value = "";
