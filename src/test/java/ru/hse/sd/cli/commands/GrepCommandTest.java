@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +17,10 @@ public class GrepCommandTest {
 
     @Test
     void testNoFlagsInputStream() {
+        Memory memory = new Memory();
         String text = "Sea, sea, sea, ocean";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
-        GrepCommand grep = new GrepCommand(List.of("sea"), inputStream);
+        GrepCommand grep = new GrepCommand(List.of("sea"), inputStream, memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -29,9 +31,26 @@ public class GrepCommandTest {
 
     @Test
     void testNoFlagsFile() {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/sea.txt";
         GrepCommand grep = new GrepCommand(List.of("sea", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
+
+        ReturnCode code = grep.execute();
+        assertEquals(ReturnCode.SUCCESS, code);
+
+        String stream = grep.getOutputStream().toString();
+        String expected = "sea, ocean";
+        assertEquals(expected, stream);
+    }
+
+    @Test
+    void testNoFlagsFileAnotherDirectory() {
+        Memory memory = new Memory();
+        memory.changeCurrentDirectory("src/test/resources/");
+        String filePath = "grep/sea.txt";
+        GrepCommand grep = new GrepCommand(List.of("sea", filePath),
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -43,9 +62,10 @@ public class GrepCommandTest {
 
     @Test
     void testNoFlagsEverythingMatches() throws IOException {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/sea.txt";
         GrepCommand grep = new GrepCommand(List.of("ocean", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -60,9 +80,10 @@ public class GrepCommandTest {
 
     @Test
     void testIFlagFile() throws IOException {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/sea.txt";
         GrepCommand grep = new GrepCommand(List.of("sea", "-i", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -77,9 +98,10 @@ public class GrepCommandTest {
 
     @Test
     void testWFlagFile() {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/sea.txt";
         GrepCommand grep = new GrepCommand(List.of("se", "-w", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -91,9 +113,10 @@ public class GrepCommandTest {
 
     @Test
     void testWIFlagsFile() {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/abcd.txt";
         GrepCommand grep = new GrepCommand(List.of("abcd", "-w", "-i", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -105,9 +128,10 @@ public class GrepCommandTest {
 
     @Test
     void testAFlagWithIntersectionFile() throws IOException {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/kuku.txt";
         GrepCommand grep = new GrepCommand(List.of("kuku", "-A", "4", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -122,9 +146,10 @@ public class GrepCommandTest {
 
     @Test
     void testAFlagFile() {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/grep/abcd.txt";
         GrepCommand grep = new GrepCommand(List.of("aBc", "-A", "1", filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = grep.execute();
         assertEquals(ReturnCode.SUCCESS, code);

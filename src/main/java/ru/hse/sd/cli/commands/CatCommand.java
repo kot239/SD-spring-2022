@@ -3,9 +3,10 @@ package ru.hse.sd.cli.commands;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
@@ -13,16 +14,18 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class CatCommand extends Command {
     private final List<String> args;
+    private final Memory memory;
 
     /*
      * Constructor which takes arguments for cat command
      */
     public CatCommand(List<String> args,
-                      ByteArrayInputStream inputStream) {
+                      ByteArrayInputStream inputStream, Memory memory) {
         this.command = "cat";
         this.args = args;
         this.inputStream = inputStream;
         this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
+        this.memory = memory;
     }
 
     /*
@@ -33,7 +36,7 @@ public class CatCommand extends Command {
         if (args.isEmpty()) {
             try {
                 inputStream.transferTo(outputStream);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 errorStream = e.getMessage();
                 return ReturnCode.FAILURE;
             }
@@ -42,21 +45,26 @@ public class CatCommand extends Command {
             errorStream = "Too many arguments for cat command\n";
             return ReturnCode.FAILURE;
         }
-        String filename = args.get(0);
-        File f = new File(filename);
+        Path path = memory.resolveCurrentDirectory(args.get(0));
+        if (path == null) {
+            errorStream = "Wrong file path\n";
+            return ReturnCode.FAILURE;
+        }
+        File f = path.toFile();
         if (!f.exists()) {
-            errorStream = filename + ": No such file or directory\n";
+            errorStream = path + ": No such file or directory\n";
+            return ReturnCode.FAILURE;
         }
         try {
-            String readString = Files.readString(Paths.get(filename));
+            String readString = Files.readString(path);
             try {
                 outputStream.write(readString.getBytes(StandardCharsets.UTF_8));
-            } catch(IOException e) {
+            } catch (IOException e) {
                 errorStream = e.getMessage();
                 return ReturnCode.FAILURE;
             }
         } catch (IOException e) {
-            errorStream = "Couldn't read file " + filename + "\n";
+            errorStream = "Couldn't read file " + path + "\n";
             return ReturnCode.FAILURE;
         }
 

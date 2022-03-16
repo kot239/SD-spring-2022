@@ -1,13 +1,16 @@
 package ru.hse.sd.cli;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class that save information about params
+ * Class that save information about params and current working directory
  */
 public class Memory {
     private final Map<String, String> storage;
+    private Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
     public Memory() {
         storage = new HashMap<>();
@@ -50,5 +53,36 @@ public class Memory {
      */
     public void putAll(Map<String, String> m) {
         storage.putAll(m);
+    }
+
+    /**
+     * Reset current directory to the initial one
+     */
+    public void resetCurrentDirectory() {
+        currentDirectory = Paths.get(System.getProperty("user.dir"));
+    }
+
+    /**
+     * @param path
+     * Change current directory according to the path
+     */
+    public void changeCurrentDirectory(String path) {
+        currentDirectory = currentDirectory.resolve(path);
+    }
+
+    /**
+     * @param path
+     * @return Path
+     * Do not change the value of current directory, but try to do it and return the result
+     */
+    public Path resolveCurrentDirectory(String path) {
+        return currentDirectory.resolve(path);
+    }
+
+    /**
+     * @return path of current directory
+     */
+    public Path getCurrentDirectory() {
+        return currentDirectory;
     }
 }

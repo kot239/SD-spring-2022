@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,8 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PwdCommandTest {
     @Test
     void testPwd() {
+        Memory memory = new Memory();
         PwdCommand pwd = new PwdCommand(
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = pwd.execute();
         assertEquals(ReturnCode.SUCCESS, code);

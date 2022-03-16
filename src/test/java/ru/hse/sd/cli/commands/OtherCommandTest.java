@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static java.util.Collections.emptyList;
@@ -16,12 +17,13 @@ class OtherCommandTest {
     @Test
     void testPwd() {
         OtherCommand other;
+        Memory memory = new Memory();
         if (System.getProperty("os.name").contains("Windows")) {
             other = new OtherCommand("cd", emptyList(),
-                    new ByteArrayInputStream("".getBytes()), emptyMap());
+                    new ByteArrayInputStream("".getBytes()), memory);
         } else {
             other = new OtherCommand("pwd", emptyList(),
-                    new ByteArrayInputStream("".getBytes()), emptyMap());
+                    new ByteArrayInputStream("".getBytes()), memory);
         }
 
         ReturnCode code = other.execute();

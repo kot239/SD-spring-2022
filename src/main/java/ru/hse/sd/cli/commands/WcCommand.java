@@ -3,11 +3,14 @@ package ru.hse.sd.cli.commands;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 /*
@@ -15,15 +18,17 @@ import ru.hse.sd.cli.enums.ReturnCode;
  */
 public class WcCommand extends Command {
     private final List<String> args;
+    private final Memory memory;
 
     /*
      * Constructor which takes arguments for wc command
      */
-    public WcCommand(List<String> args, ByteArrayInputStream inputStream) {
+    public WcCommand(List<String> args, ByteArrayInputStream inputStream, Memory memory) {
         this.command = "wc";
         this.args = args;
         this.inputStream = inputStream;
         this.outputStream = new ByteArrayOutputStream(inputStream.toString().getBytes().length);
+        this.memory = memory;
     }
 
     /*
@@ -44,9 +49,13 @@ public class WcCommand extends Command {
             return ReturnCode.SUCCESS;
         }
         StringBuilder result = new StringBuilder();
+        List<Path> files = new ArrayList<>();
         for (String filename : args) {
+            files.add(memory.resolveCurrentDirectory(filename));
+        }
+        for (Path filename : files) {
             try {
-                List<String> fileLines = Files.lines(Paths.get(filename)).collect(Collectors.toList());
+                List<String> fileLines = Files.lines(filename).collect(Collectors.toList());
                 result.append(countOneIteration(fileLines));
             } catch (IOException e) {
                 errorStream = e.getMessage();

@@ -15,6 +15,8 @@ public abstract class Command {
     public static final String GREP = "grep";
     public static final String PWD = "pwd";
     public static final String WC = "wc";
+    public static final String CD = "cd";
+    public static final String LS = "ls";
 
     protected String command;
     protected ByteArrayInputStream inputStream;

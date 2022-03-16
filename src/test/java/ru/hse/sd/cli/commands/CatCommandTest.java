@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,12 +20,13 @@ class CatCommandTest {
     void testTooManyArgs() {
         String filePath1 = "src/test/resources/file.txt";
         String filePath2 = "src/test/resources/file2.txt";
+        Memory memory = new Memory();
 
         CatCommand cat = new CatCommand(List.of(
                 filePath1,
                 filePath2
         ),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.FAILURE);
@@ -32,8 +34,9 @@ class CatCommandTest {
 
     @Test
     void testNoArgs() {
+        Memory memory = new Memory();
         CatCommand cat = new CatCommand(Collections.emptyList(),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
@@ -45,16 +48,37 @@ class CatCommandTest {
 
     @Test
     void testHappyPath() throws Exception {
+        Memory memory = new Memory();
         String filePath = "src/test/resources/file.txt";
 
         CatCommand cat = new CatCommand(
                 List.of(filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = cat.execute();
         assertEquals(code, ReturnCode.SUCCESS);
 
         File expectedFile = new File(filePath);
+
+        String stream = cat.getOutputStream().toString();
+        String expected = String.join(System.getProperty("line.separator"), FileUtils.readLines(expectedFile, StandardCharsets.UTF_8));
+        assertEquals(expected, stream);
+    }
+
+    @Test
+    void testAnotherDirectory() throws Exception {
+        Memory memory = new Memory();
+        memory.changeCurrentDirectory("src/test/resources");
+        String filePath = "file.txt";
+
+        CatCommand cat = new CatCommand(
+                List.of(filePath),
+                new ByteArrayInputStream("".getBytes()), memory);
+
+        ReturnCode code = cat.execute();
+        assertEquals(code, ReturnCode.SUCCESS);
+
+        File expectedFile = new File("src/test/resources/file.txt");
 
         String stream = cat.getOutputStream().toString();
         String expected = String.join(System.getProperty("line.separator"), FileUtils.readLines(expectedFile, StandardCharsets.UTF_8));

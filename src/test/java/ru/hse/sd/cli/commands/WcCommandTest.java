@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import ru.hse.sd.cli.Memory;
 import ru.hse.sd.cli.enums.ReturnCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,8 +18,9 @@ class WcCommandTest {
 
     @Test
     void testNoSuchFile() {
+        Memory memory = new Memory();
         WcCommand wc = new WcCommand(List.of("not_exist.txt"),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.FAILURE, code);
@@ -28,9 +30,9 @@ class WcCommandTest {
     @Test
     void testOneFile() {
         String filePath = "src/test/resources/file.txt";
-
+        Memory memory = new Memory();
         WcCommand wc = new WcCommand(List.of(filePath),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.SUCCESS, code);
@@ -46,13 +48,13 @@ class WcCommandTest {
     void testMultipleFiles() {
         String filePath1 = "src/test/resources/file.txt";
         String filePath2 = "src/test/resources/file2.txt";
-
+        Memory memory = new Memory();
         WcCommand wc = new WcCommand(
                 List.of(
                         filePath1,
                         filePath2
                 ),
-                new ByteArrayInputStream("".getBytes()));
+                new ByteArrayInputStream("".getBytes()), memory);
 
         ReturnCode code = wc.execute();
         assertEquals(ReturnCode.SUCCESS, code);
